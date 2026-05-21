@@ -1,0 +1,212 @@
+Create a premium cinematic South Indian wedding invitation microsite as a FRONTEND-ONLY static website (NO database, NO backend, NO authentication, NO server-side dependencies). Build it optimized for Lovable AI using reusable components and mock/static data.
+
+PROJECT TYPE:
+A luxury interactive digital wedding invitation website that feels like an immersive storytelling experience, not a basic invitation card.
+
+IMPORTANT TECH RULES:
+- Frontend only
+- No database
+- No backend APIs
+- No login/signup
+- No server
+- Use static JSON/mock data
+- RSVP stores temporarily in frontend state only
+- Guest wishes shown as demo/mock cards
+- Guest photo uploads preview only (no storage)
+- Calendar buttons use generated links
+- WhatsApp share uses URL sharing
+- QR code generated from venue map URL
+- PDF invitation generated client-side only
+- Live stream button opens external link
+- Fully mobile responsive
+- Optimized performance
+- Lightweight animations
+- Component-based structure
+
+DESIGN CONCEPT:
+Create a cinematic “Wedding Journey Experience” where guests feel like they are entering a premium Tamil wedding celebration digitally.
+
+VISUAL THEME:
+Blend Tamil wedding tradition + modern luxury:
+- Temple-inspired architecture
+- Deep maroon + ivory + sandalwood + antique gold palette
+- Brass lamps
+- Jasmine flower motifs
+- Kolam / Rangoli patterns
+- Premium cinematic lighting
+- Soft spiritual glow
+- Elegant serif + Tamil-inspired typography
+- Luxury motion design
+
+HOMEPAGE EXPERIENCE:
+Create animated immersive entry:
+- Closed temple doors open on click
+- Soft nadaswaram / bell intro audio toggle
+- Floating diyas and jasmine petals
+- Couple names glowing reveal
+- Sacred Tamil wedding quote
+- “Enter Invitation” cinematic CTA
+
+SECTIONS:
+
+1. SACRED WELCOME
+- Couple names
+- Tamil invitation line
+- Wedding date highlight
+- Countdown timer
+- Music play/pause toggle
+- Floating petals
+- Lamp glow animation
+
+2. COUPLE STORY JOURNEY
+Timeline storytelling layout:
+- First meeting
+- Engagement
+- Journey together
+- Wedding celebration
+Include:
+- Bride photo
+- Groom photo
+- Couple gallery
+- Animated bride & groom dolls
+- Romantic transitions
+
+3. WEDDING EVENTS TIMELINE
+Interactive visual timeline:
+- Engagement
+- Mehendi
+- Reception
+- Muhurtham
+- Lunch
+Each event:
+- Date
+- Time
+- Venue
+- Dress code
+- Event icon
+- Calendar add button
+
+4. MUHURTHAM SPECIAL SECTION
+Temple-inspired sacred section:
+- Muhurtham timing
+- Religious icons
+- Temple bells animation
+- Tamil blessing quote
+- Gold glowing sacred border
+- Banana leaves / lamp / lotus motifs
+
+5. SMART VENUE SECTION
+Premium venue card:
+- Venue photo
+- Venue name
+- Full address
+- Embedded Google Maps iframe
+- QR code for venue map
+- “Get Directions” button
+- Nearby landmark info
+- Parking info
+- Accommodation details
+- Travel help contact
+
+6. FAMILY BLESSINGS
+Elegant family tree style:
+- Bride side
+- Groom side
+- Parents
+- Grandparents
+- Host names
+- Blessings message
+
+7. INTERACTIVE GALLERY
+Luxury gallery section:
+- Pre-wedding photos
+- Childhood photos
+- Couple memories slider
+- Video section
+- Lightbox viewer
+- Slideshow autoplay
+
+8. GUEST WISHES WALL (NO DB)
+Frontend-only demo functionality:
+- Guest photo upload preview only
+- Wishes message input
+- Mock guest wishes display cards
+- Heart reactions (UI only)
+- No permanent storage
+
+9. RSVP SECTION (NO DB)
+Frontend-only RSVP:
+- Guest name
+- Number of attendees
+- Food preference
+- Stay needed
+- WhatsApp RSVP button
+- Confirmation popup
+- No backend save
+
+10. RELATIVES ABROAD SECTION
+- Live stream link button
+- Countdown to ceremony
+- Time zone helper
+- Digital blessings section (UI only)
+
+11. SMART SHARING
+- WhatsApp invitation share
+- Copy invite link
+- Download invitation PDF
+- Save as image
+- QR invite card
+- Add to Google Calendar
+- Add to Apple Calendar
+
+12. FOOTER FINALE
+- Thank you blessing note
+- Couple signature names
+- Final flower shower animation
+- Lamp glow
+- Soft farewell music
+
+SPECIAL PREMIUM FEATURES:
+- Temple entrance animation
+- Nadaswaram sound toggle
+- Floating jasmine petals
+- Kolam animated background
+- Fireworks on welcome
+- Day/night theme switch
+- Tamil / English language switch
+- Religious icons
+- QR venue navigation
+- WhatsApp share
+- Calendar sync links
+- Client-side PDF generator
+
+UX REQUIREMENTS:
+- Cinematic scrolling experience
+- Smooth transitions
+- Premium luxury animations
+- Mobile-first
+- High performance optimized
+- Lazy load images
+- Lightweight assets
+- Elegant micro-interactions
+- Instagram-worthy design
+
+CUSTOMIZATION PANEL:
+Editable static data for:
+- Bride name
+- Groom name
+- Couple photos
+- Cartoon dolls
+- Event schedule
+- Venue
+- QR map link
+- Live stream link
+- Music
+- Theme colors
+- Tamil/English text
+- Family names
+
+IMPORTANT:
+Do NOT use database or backend.
+Simulate interactive features using frontend-only state and mock data.
+Build as a premium static wedding invitation microsite optimized for speed, beauty, and mobile responsiveness.

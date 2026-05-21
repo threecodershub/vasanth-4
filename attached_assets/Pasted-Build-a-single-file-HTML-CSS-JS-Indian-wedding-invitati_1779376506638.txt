@@ -1,0 +1,87 @@
+Build a single-file HTML/CSS/JS Indian wedding invitation webpage with NO backend or database. All data is hardcoded. Use Three.js (CDN) for 3D animations and GSAP (CDN) for scroll and timeline animations. Tone: royal, sacred, warm, South Indian aesthetic.
+
+━━━ OPENING CEREMONY (Full Screen Gate) ━━━
+- Full-screen royal temple door: two tall carved wooden doors rendered in 3D using Three.js, with gold-embossed relief patterns (lotus, peacock, kalash motifs).
+- Doors are CLOSED on page load. A soft glow pulses around the door frame.
+- Below the door: animated text "✦ Click to open ✦" with a gentle heartbeat pulse.
+- On click: doors swing open with a realistic 3D hinge animation (perspective transform + Three.js rotation).
+- As doors open simultaneously trigger:
+  → Nadaswaram/temple bell sound using Web Audio API (synthesized, no external file).
+  → Floating diya particles (orange flame glows) rise from bottom.
+  → White jasmine petal particles fall from top (CSS particle system, 60+ petals).
+  → Couple names ("Priya & Arjun") appear center-screen with golden glowing text reveal (letter by letter).
+  → Sacred Sanskrit quote appears below with fade-in: "सर्वे भवन्तु सुखिनः" with English translation.
+  → "Enter Invitation ✦" button appears with shimmer border animation.
+- Transition: doors dissolve into hero section with crossfade.
+
+━━━ SECTION 1 — HERO ━━━
+- Full-viewport animated hero with silk-texture CSS background (deep maroon + gold palette).
+- Floating 3D kalash (pot) model using Three.js on left and right edges, slowly rotating.
+- Center: couple names in ornate Devanagari-inspired CSS font (Google Fonts: Rozha One or Tillana).
+- Animated rangoli mandala (SVG) slowly spinning behind names.
+- Subtext: Wedding date, day, and location in elegant typography.
+- Scroll-down indicator: animated diya flame flickering.
+- Floating jasmine garland (SVG path animation) along the top edge.
+
+━━━ SECTION 2 — COUPLE STORY ━━━
+- Horizontal scroll storytelling (scroll-triggered with GSAP ScrollTrigger).
+- 5 chapters: How They Met → First Date → Proposal → Engagement → Wedding.
+- Each chapter: photo placeholder (upload-ready div), illustrated border frame (CSS), animated text reveal.
+- 3D rotating lotus flower (Three.js) transitions between chapters.
+- Parallax depth on background patterns.
+
+━━━ SECTION 3 — EVENT TIMELINE ━━━
+- Vertical scroll timeline with GSAP animations.
+- 6 events with icons: Mehendi, Haldi, Sangeet, Baraat, Wedding Ceremony, Reception.
+- Each card: event name (Tamil + English), date/time, venue, dress code badge.
+- Cards animate in from alternating left/right on scroll.
+- 3D animated oil lamp (diya) floats above each event card.
+- Connecting line draws itself as user scrolls (SVG stroke-dashoffset animation).
+
+━━━ SECTION 4 — RSVP ━━━
+- No backend: use Formspree (https://formspree.io) for form submission or mailto fallback.
+- Fields: Name, phone, number of guests (stepper), attending (yes/no/maybe toggle), meal preference (veg/non-veg).
+- On submit: confetti burst of marigold petals + success message in Tamil and English.
+- QR CODE GENERATOR: On RSVP confirmation, dynamically generate a personal QR code (use qrcode.js CDN) encoding guest name + attendance. Show it as their "entry pass".
+- Calendar sync buttons: "Add to Google Calendar" and "Add to Apple Calendar" using .ics file generation in JS (no server needed).
+
+━━━ SECTION 5 — VENUE ━━━
+- Split layout: left = embedded Google Maps iframe (placeholder), right = venue details.
+- 3D animated temple gopuram silhouette (Three.js) rotates slowly above the venue card.
+- Venue details: name, address, directions button, parking note.
+- Animated route path drawing on a stylized illustrated map (SVG).
+
+━━━ SECTION 6 — GALLERY / GUEST UPLOAD WALL ━━━
+- Pre-wedding photo gallery: masonry CSS grid with 12 placeholder image slots.
+- GUEST UPLOAD WALL: Allow guests to upload photos via No file chosen. Store in localStorage (base64). Display uploaded photos in a live mosaic grid with a "Recently added" label.
+- Lightbox viewer: click any photo to open a fullscreen overlay with left/right navigation.
+- Each gallery card has a floating jasmine petal particle on hover.
+
+━━━ SECTION 7 — LIVE STREAM ━━━
+- Dedicated full-width section with a dark silk background.
+- Embed slot: YouTube Live iframe (hardcoded placeholder src with event ID field).
+- Countdown timer to stream start (JS, hardcoded date).
+- "Set Reminder" button: adds calendar event via .ics download.
+- 3D floating camera/broadcast icon animation (Three.js).
+
+━━━ LANGUAGE SWITCH ━━━
+- Fixed floating button (bottom-right corner): flag icons for Tamil / English / Hindi.
+- On click: swap all visible text using JS data attributes (data-ta, data-en, data-hi) — no reload.
+- All section headings, event names, RSVP labels, and footer text must have all 3 language strings defined.
+
+━━━ FOOTER ━━━
+- Dark maroon background with gold accents.
+- Animated kolam pattern (SVG geometric) as footer background.
+- Couple monogram logo (CSS).
+- Wedding hashtag: #PriyaWedArjun with social share buttons (Twitter/Instagram/WhatsApp — mailto/href only).
+- Countdown clock to wedding day (live JS timer: days, hours, minutes, seconds).
+- "Made with ❤️ in India" credit.
+
+━━━ GLOBAL DESIGN SYSTEM ━━━
+- Color palette: Deep Maroon (#7B1C1C), Temple Gold (#C9A84C), Ivory (#FFF8F0), Peacock Teal (#1B6B5A).
+- Fonts: Rozha One (headings), Hind (body), Noto Sans Tamil (Tamil text) — all from Google Fonts CDN.
+- All animations must be smooth 60fps. Use will-change and GPU-composited properties.
+- Fully mobile responsive (375px to 1440px).
+- Accessibility: aria-labels on all interactive elements, keyboard nav, skip link.
+- No external images required — use CSS gradients and SVG illustrations as placeholders.
+- Single HTML file, all CSS and JS inline or in 
