@@ -62,145 +62,488 @@ export default function Home() {
   );
 }
 
-function Gate({ onOpen, lang, theme }: { onOpen: () => void, lang: string, theme: string }) {
+function Gate({ onOpen, lang, theme }: { onOpen: () => void; lang: string; theme: string }) {
+  const mountRef = useRef<HTMLDivElement>(null);
   const [isOpening, setIsOpening] = useState(false);
   const [showContent, setShowContent] = useState(false);
-
-  const handleClick = () => {
-    if (isOpening) return;
-    setIsOpening(true);
-
-    try {
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioCtx.createOscillator();
-      const gainNode = audioCtx.createGain();
-
-      oscillator.type = "sine";
-      oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); 
-      gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioCtx.destination);
-      oscillator.start();
-      oscillator.stop(audioCtx.currentTime + 2.5);
-    } catch (e) {
-      console.log("Audio not supported");
-    }
-
-    setTimeout(() => setShowContent(true), 1000);
-  };
+  const [webglReady, setWebglReady] = useState<boolean | null>(null);
+  const threeRef = useRef<any>({});
 
   const getClickText = () => {
     if (lang === "ta") return "✦ திறக்க கிளிக் செய்யவும் ✦";
     if (lang === "hi") return "✦ खोलने के लिए क्लिक करें ✦";
     return "✦ Click to open ✦";
   };
-
   const getEnterText = () => {
     if (lang === "ta") return "அழைப்பிதழை உள்ளிடவும் ✦";
     if (lang === "hi") return "निमंत्रण दर्ज करें ✦";
     return "Enter Invitation ✦";
   };
 
-  const bgCol = theme === 'day' ? '#F5F0FF' : '#0F0A1E';
-  const doorCol = theme === 'day' ? '#EDE9FF' : '#1E1B4B';
+  // Test WebGL support before initializing Three.js
+  const testWebGL = () => {
+    try {
+      const testCanvas = document.createElement("canvas");
+      const ctx = testCanvas.getContext("webgl") || testCanvas.getContext("experimental-webgl");
+      return !!ctx;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    const supported = testWebGL();
+    setWebglReady(supported);
+    if (!supported) return;
+
+    const THREE = (window as any).THREE;
+    if (!THREE || !mountRef.current) { setWebglReady(false); return; }
+
+    const mount = mountRef.current;
+    let renderer: any = null;
+    let animId = 0;
+
+    const onResize = () => {
+      if (!renderer) return;
+      const nw = mount.clientWidth; const nh = mount.clientHeight;
+      threeRef.current.camera.aspect = nw / nh;
+      threeRef.current.camera.updateProjectionMatrix();
+      renderer.setSize(nw, nh);
+    };
+
+    try {
+    const w = mount.clientWidth || window.innerWidth;
+    const h = mount.clientHeight || window.innerHeight;
+
+    // ── Scene ──────────────────────────────────────────────────────────
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(theme === "day" ? 0xF5F0FF : 0x0A0618);
+    scene.fog = new THREE.FogExp2(theme === "day" ? 0xF5F0FF : 0x0A0618, 0.06);
+
+    const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 100);
+    camera.position.set(0, 0, 4.5);
+    threeRef.current.camera = camera;
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    mount.appendChild(renderer.domElement);
+
+    // ── Lighting ───────────────────────────────────────────────────────
+    scene.add(new THREE.AmbientLight(0x2D1B69, 1.2));
+
+    const goldLight = new THREE.PointLight(0xD97706, 4, 18);
+    goldLight.position.set(0, 3, 3);
+    goldLight.castShadow = true;
+    scene.add(goldLight);
+
+    const rimLight = new THREE.PointLight(0xFCD34D, 2.5, 12);
+    rimLight.position.set(0, -1, 2);
+    scene.add(rimLight);
+
+    const purpleLight = new THREE.PointLight(0x6D28D9, 2, 20);
+    purpleLight.position.set(0, 0, -3);
+    scene.add(purpleLight);
+
+    // ── Door canvas texture ────────────────────────────────────────────
+    const makeDoorTexture = () => {
+      const cv = document.createElement("canvas");
+      cv.width = 512; cv.height = 1024;
+      const ctx = cv.getContext("2d")!;
+
+      const bg = ctx.createLinearGradient(0, 0, 512, 1024);
+      bg.addColorStop(0, "#1A1650");
+      bg.addColorStop(0.5, "#251F70");
+      bg.addColorStop(1, "#1A1650");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, 512, 1024);
+
+      // Outer gold frame
+      ctx.strokeStyle = "#D97706"; ctx.lineWidth = 14;
+      ctx.strokeRect(18, 18, 476, 988);
+      ctx.strokeStyle = "#FCD34D"; ctx.lineWidth = 4;
+      ctx.strokeRect(32, 32, 448, 960);
+
+      // Diagonal diamond grid
+      ctx.strokeStyle = "rgba(217,119,6,0.25)"; ctx.lineWidth = 1;
+      for (let y = 50; y < 970; y += 90) {
+        for (let x = 50; x < 460; x += 90) {
+          ctx.beginPath();
+          ctx.moveTo(x + 45, y);
+          ctx.lineTo(x + 90, y + 45);
+          ctx.lineTo(x + 45, y + 90);
+          ctx.lineTo(x, y + 45);
+          ctx.closePath();
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(x + 45, y + 45, 10, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(252,211,77,0.18)"; ctx.stroke();
+          ctx.strokeStyle = "rgba(217,119,6,0.25)";
+        }
+      }
+
+      // Lotus helper
+      const lotus = (cx: number, cy: number, r: number) => {
+        ctx.save(); ctx.translate(cx, cy);
+        for (let i = 0; i < 8; i++) {
+          ctx.save(); ctx.rotate((i * Math.PI) / 4);
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(r * 0.55, -r * 0.5, 0, -r);
+          ctx.quadraticCurveTo(-r * 0.55, -r * 0.5, 0, 0);
+          ctx.fillStyle = "rgba(217,119,6,0.18)";
+          ctx.strokeStyle = "#D97706"; ctx.lineWidth = 2;
+          ctx.fill(); ctx.stroke();
+          ctx.restore();
+        }
+        ctx.beginPath(); ctx.arc(0, 0, r * 0.18, 0, Math.PI * 2);
+        ctx.fillStyle = "#FCD34D"; ctx.fill();
+        ctx.restore();
+      };
+      lotus(256, 160, 55);
+      lotus(256, 512, 65);
+      lotus(256, 860, 55);
+
+      // Peacock arc motif
+      ctx.strokeStyle = "rgba(109,40,217,0.35)"; ctx.lineWidth = 1.5;
+      for (let i = 0; i < 5; i++) {
+        ctx.beginPath();
+        ctx.moveTo(256, 350);
+        ctx.quadraticCurveTo(256 + (i - 2) * 45, 420, 256 + (i - 2) * 65, 490);
+        ctx.stroke();
+      }
+
+      return new THREE.CanvasTexture(cv);
+    };
+
+    const tex = makeDoorTexture();
+
+    // ── Door meshes ────────────────────────────────────────────────────
+    const DW = 1.55; const DH = 4.4; const DD = 0.13;
+    const doorGeo = new THREE.BoxGeometry(DW, DH, DD);
+
+    const doorMat = (t: any) => new THREE.MeshStandardMaterial({
+      map: t, metalness: 0.35, roughness: 0.65,
+    });
+
+    // Left pivot at left edge of left door (x = -DW)
+    const leftPivot = new THREE.Group();
+    leftPivot.position.set(-DW, 0, 0);
+    scene.add(leftPivot);
+    const leftDoor = new THREE.Mesh(doorGeo, doorMat(tex));
+    leftDoor.position.set(DW / 2, 0, 0);
+    leftDoor.castShadow = true; leftDoor.receiveShadow = true;
+    leftPivot.add(leftDoor);
+
+    // Right pivot at right edge of right door (x = +DW)
+    const rightPivot = new THREE.Group();
+    rightPivot.position.set(DW, 0, 0);
+    scene.add(rightPivot);
+    const rightDoor = new THREE.Mesh(doorGeo, doorMat(tex));
+    rightDoor.position.set(-DW / 2, 0, 0);
+    rightDoor.castShadow = true; rightDoor.receiveShadow = true;
+    rightPivot.add(rightDoor);
+
+    // ── Gold frame ─────────────────────────────────────────────────────
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0xD97706, metalness: 0.85, roughness: 0.15 });
+    const addBox = (ww: number, hh: number, dd: number, x: number, y: number, z: number) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(ww, hh, dd), frameMat);
+      m.position.set(x, y, z);
+      scene.add(m);
+    };
+    addBox(DW * 2 + 0.15, 0.18, DD + 0.06, 0, DH / 2 + 0.09, 0);   // top
+    addBox(DW * 2 + 0.15, 0.18, DD + 0.06, 0, -DH / 2 - 0.09, 0);  // bottom
+    addBox(0.15, DH + 0.36, DD + 0.06, -DW - 0.075, 0, 0);           // left side
+    addBox(0.15, DH + 0.36, DD + 0.06, DW + 0.075, 0, 0);            // right side
+    addBox(0.09, DH, DD + 0.03, 0, 0, 0.03);                          // center seam
+
+    // Gold door knobs
+    const knobMat = new THREE.MeshStandardMaterial({ color: 0xFCD34D, metalness: 0.95, roughness: 0.05 });
+    const knobGeo = new THREE.SphereGeometry(0.11, 20, 20);
+    const lk = new THREE.Mesh(knobGeo, knobMat);
+    lk.position.set(-0.16, 0, DD / 2 + 0.11); scene.add(lk);
+    const rk = new THREE.Mesh(knobGeo, knobMat);
+    rk.position.set(0.16, 0, DD / 2 + 0.11); scene.add(rk);
+
+    // ── Ganesha plane behind doors ─────────────────────────────────────
+    const ganeshaMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 });
+    const ganeshaPlane = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 3.2), ganeshaMat);
+    ganeshaPlane.position.set(0, 0.2, -0.6);
+    scene.add(ganeshaPlane);
+    new THREE.TextureLoader().load("/ganesha.png", (t: any) => {
+      ganeshaMat.map = t; ganeshaMat.needsUpdate = true;
+    });
+
+    // Glow ring behind Ganesha
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0xD97706, transparent: true, opacity: 0, side: THREE.DoubleSide });
+    const ringMesh = new THREE.Mesh(new THREE.RingGeometry(1.55, 1.75, 64), ringMat);
+    ringMesh.position.set(0, 0.2, -0.7);
+    scene.add(ringMesh);
+
+    // ── Particle systems ───────────────────────────────────────────────
+    const PC = 280;
+    const pPos = new Float32Array(PC * 3);
+    const pVel: number[] = [];
+    for (let i = 0; i < PC; i++) {
+      pPos[i * 3] = (Math.random() - 0.5) * 12;
+      pPos[i * 3 + 1] = Math.random() * 8 + 4;
+      pPos[i * 3 + 2] = (Math.random() - 0.5) * 4;
+      pVel.push((Math.random() - 0.5) * 0.012, -(0.015 + Math.random() * 0.02), 0);
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute("position", new THREE.BufferAttribute(pPos, 3));
+    const pMat = new THREE.PointsMaterial({ color: 0xFFFAE0, size: 0.06, transparent: true, opacity: 0, sizeAttenuation: true });
+    scene.add(new THREE.Points(pGeo, pMat));
+
+    const FC = 120;
+    const fPos = new Float32Array(FC * 3);
+    for (let i = 0; i < FC; i++) {
+      fPos[i * 3] = (Math.random() - 0.5) * 10;
+      fPos[i * 3 + 1] = -Math.random() * 5 - 3;
+      fPos[i * 3 + 2] = (Math.random() - 0.5) * 3;
+    }
+    const fGeo = new THREE.BufferGeometry();
+    fGeo.setAttribute("position", new THREE.BufferAttribute(fPos, 3));
+    const fMat = new THREE.PointsMaterial({ color: 0xFF6B00, size: 0.09, transparent: true, opacity: 0, sizeAttenuation: true });
+    scene.add(new THREE.Points(fGeo, fMat));
+
+    // ── Animation loop ─────────────────────────────────────────────────
+    let opening = false;
+    let progress = 0;
+    let particlesOn = false;
+    const clock = new THREE.Clock();
+
+    const animate = () => {
+      animId = requestAnimationFrame(animate);
+      const t = clock.getElapsedTime();
+
+      // Idle atmosphere
+      if (!opening) {
+        camera.position.y = Math.sin(t * 0.35) * 0.06;
+        goldLight.intensity = 4 + Math.sin(t * 1.4) * 0.7;
+        rimLight.intensity = 2.5 + Math.sin(t * 0.9) * 0.4;
+      }
+
+      // Opening sequence
+      if (opening && progress < 1) {
+        progress = Math.min(1, progress + 0.0042); // ~4s
+        const e = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        const target = Math.PI * 0.84;
+        leftPivot.rotation.y = -e * target;
+        rightPivot.rotation.y = e * target;
+
+        // Camera gently drifts closer
+        camera.position.z = 4.5 - e * 0.7;
+        camera.position.y = e * 0.15;
+
+        // Ganesha + glow ring fade in
+        ganeshaMat.opacity = Math.min(1, (progress - 0.25) * 1.8);
+        ringMat.opacity = Math.min(0.6, (progress - 0.25) * 1.0);
+        ringMesh.rotation.z = t * 0.3;
+
+        // Light explosion as doors open
+        goldLight.intensity = 4 + e * 6;
+        purpleLight.intensity = 2 + e * 3;
+
+        // Activate particles from 30% open
+        if (progress > 0.3) {
+          pMat.opacity = Math.min(0.9, (progress - 0.3) * 1.6);
+          fMat.opacity = Math.min(0.85, (progress - 0.3) * 1.4);
+          particlesOn = true;
+        }
+      }
+
+      // Update particles
+      if (particlesOn) {
+        const pp = pGeo.attributes.position.array as Float32Array;
+        for (let i = 0; i < PC; i++) {
+          pp[i * 3] += pVel[i * 3] + Math.sin(t + i * 0.5) * 0.003;
+          pp[i * 3 + 1] += pVel[i * 3 + 1];
+          if (pp[i * 3 + 1] < -5) { pp[i * 3 + 1] = 7; pp[i * 3] = (Math.random() - 0.5) * 12; }
+        }
+        pGeo.attributes.position.needsUpdate = true;
+
+        const fp = fGeo.attributes.position.array as Float32Array;
+        for (let i = 0; i < FC; i++) {
+          fp[i * 3 + 1] += 0.025 + Math.random() * 0.01;
+          fp[i * 3] += Math.sin(t + i) * 0.005;
+          if (fp[i * 3 + 1] > 5) { fp[i * 3 + 1] = -4; fp[i * 3] = (Math.random() - 0.5) * 10; }
+        }
+        fGeo.attributes.position.needsUpdate = true;
+      }
+
+      // Ganesha gentle float
+      ganeshaPlane.position.y = 0.2 + Math.sin(t * 0.5) * 0.04;
+      ganeshaPlane.rotation.z = Math.sin(t * 0.25) * 0.012;
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    threeRef.current.startOpening = () => { opening = true; };
+    window.addEventListener("resize", onResize);
+
+    } catch (err) {
+      console.warn("Three.js init failed, using CSS fallback", err);
+      setWebglReady(false);
+      try {
+        if (renderer && mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
+      } catch (_) {}
+    }
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      cancelAnimationFrame(animId);
+      try {
+        if (renderer) {
+          renderer.dispose();
+          if (mount.contains(renderer.domElement)) mount.removeChild(renderer.domElement);
+        }
+      } catch (_) {}
+    };
+  }, [theme]);
+
+  const handleClick = () => {
+    if (isOpening) return;
+    setIsOpening(true);
+
+    // Richer temple bell — multiple harmonics
+    try {
+      const ac = new (window.AudioContext || (window as any).webkitAudioContext)();
+      [220, 440, 660, 880, 1100].forEach((freq, i) => {
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.5 / (i + 1), ac.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 4);
+        osc.connect(gain); gain.connect(ac.destination);
+        osc.start(ac.currentTime + i * 0.04);
+        osc.stop(ac.currentTime + 4);
+      });
+    } catch (_) {}
+
+    threeRef.current.startOpening?.();
+    setTimeout(() => setShowContent(true), 2000);
+  };
+
+  const bgCol = theme === "day" ? "#F5F0FF" : "#0A0618";
+  const doorCol = theme === "day" ? "#EDE9FF" : "#1E1B4B";
 
   return (
-    <motion.div 
-      className="fixed inset-0 z-50 flex items-center justify-center perspective-[1500px]"
-      style={{ backgroundColor: bgCol }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 1.5 }}
-    >
-      {/* Doors */}
-      <div className={`absolute inset-0 flex transition-transform duration-[3000ms] ease-[cubic-bezier(0.25,1,0.5,1)] transform-style-3d ${isOpening ? 'pointer-events-none' : 'cursor-pointer'}`} onClick={handleClick}>
-        <div className={`w-1/2 h-full border-r-4 border-[#D97706] origin-left transition-transform duration-[3000ms] flex justify-end items-center relative overflow-hidden shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)] ${isOpening ? '-rotate-y-105' : 'rotate-y-0'}`} style={{ backgroundColor: doorCol }}>
-          {/* Ornate Door Pattern */}
-          <div className="absolute inset-0 opacity-20 pointer-events-none">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="door-pattern-l" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                  <path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="#D97706" strokeWidth="2" />
-                  <circle cx="50" cy="50" r="20" fill="none" stroke="#FCD34D" strokeWidth="1" />
-                </pattern>
-              </defs>
-              <rect x="0" y="0" width="100%" height="100%" fill="url(#door-pattern-l)" />
-            </svg>
-          </div>
-          <div className="w-48 h-48 border-4 border-[#D97706] rounded-full flex items-center justify-center mr-[-4px] relative z-10" style={{ backgroundColor: bgCol }}>
-            <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#FCD34D] fill-current drop-shadow-md">
-               <path d="M50,10 C60,40 90,50 60,60 C50,90 40,60 10,50 C40,40 50,10 50,10 Z" />
-            </svg>
-          </div>
-        </div>
+    <motion.div className="fixed inset-0 z-50" style={{ backgroundColor: bgCol }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }}>
 
-        <div className={`w-1/2 h-full border-l-4 border-[#D97706] origin-right transition-transform duration-[3000ms] flex justify-start items-center relative overflow-hidden shadow-[inset_20px_0_50px_rgba(0,0,0,0.5)] ${isOpening ? 'rotate-y-105' : 'rotate-y-0'}`} style={{ backgroundColor: doorCol }}>
-          <div className="absolute inset-0 opacity-20 pointer-events-none">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="door-pattern-r" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                  <path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="#D97706" strokeWidth="2" />
-                  <circle cx="50" cy="50" r="20" fill="none" stroke="#FCD34D" strokeWidth="1" />
-                </pattern>
-              </defs>
-              <rect x="0" y="0" width="100%" height="100%" fill="url(#door-pattern-r)" />
-            </svg>
-          </div>
-          <div className="w-48 h-48 border-4 border-[#D97706] rounded-full flex items-center justify-center ml-[-4px] relative z-10" style={{ backgroundColor: bgCol }}>
-             <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#FCD34D] fill-current drop-shadow-md" style={{transform: "scaleX(-1)"}}>
-               <path d="M50,10 C60,40 90,50 60,60 C50,90 40,60 10,50 C40,40 50,10 50,10 Z" />
-            </svg>
-          </div>
-        </div>
-      </div>
+      {/* ── Three.js mount (shown when WebGL ready or still loading) ── */}
+      {webglReady !== false && (
+        <div ref={mountRef} className="absolute inset-0 cursor-pointer" onClick={handleClick} />
+      )}
 
-      {!isOpening && (
-        <div className="absolute bottom-16 text-center animate-pulse pointer-events-none z-20">
-          <p className="text-[#FCD34D] font-serif text-2xl tracking-widest drop-shadow-[0_0_10px_rgba(252,211,77,0.8)]">{getClickText()}</p>
+      {/* ── CSS fallback gate (shown when WebGL fails) ── */}
+      {webglReady === false && (
+        <div className={`absolute inset-0 flex ${isOpening ? 'pointer-events-none' : 'cursor-pointer'}`} onClick={handleClick}
+          style={{ perspective: "1500px" }}>
+          {/* Left door */}
+          <div className="w-1/2 h-full border-r-4 border-[#D97706] relative overflow-hidden shadow-[inset_-20px_0_50px_rgba(0,0,0,0.5)]"
+            style={{
+              backgroundColor: doorCol,
+              transformOrigin: "left center",
+              transform: isOpening ? "rotateY(-88deg)" : "rotateY(0deg)",
+              transition: "transform 3s cubic-bezier(0.25,1,0.5,1)",
+              transformStyle: "preserve-3d",
+            }}>
+            <div className="absolute inset-0 opacity-25">
+              <svg width="100%" height="100%"><defs><pattern id="dp-l" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="#D97706" strokeWidth="2"/><circle cx="50" cy="50" r="20" fill="none" stroke="#FCD34D" strokeWidth="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#dp-l)"/></svg>
+            </div>
+            {/* Ganesha silhouette on left door */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-30">
+              <img src="/ganesha.png" alt="" className="w-48 h-48 object-contain" style={{ filter: "sepia(1) hue-rotate(15deg) saturate(2)" }} />
+            </div>
+          </div>
+          {/* Right door */}
+          <div className="w-1/2 h-full border-l-4 border-[#D97706] relative overflow-hidden shadow-[inset_20px_0_50px_rgba(0,0,0,0.5)]"
+            style={{
+              backgroundColor: doorCol,
+              transformOrigin: "right center",
+              transform: isOpening ? "rotateY(88deg)" : "rotateY(0deg)",
+              transition: "transform 3s cubic-bezier(0.25,1,0.5,1)",
+              transformStyle: "preserve-3d",
+            }}>
+            <div className="absolute inset-0 opacity-25">
+              <svg width="100%" height="100%"><defs><pattern id="dp-r" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="#D97706" strokeWidth="2"/><circle cx="50" cy="50" r="20" fill="none" stroke="#FCD34D" strokeWidth="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#dp-r)"/></svg>
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-30">
+              <img src="/ganesha.png" alt="" className="w-48 h-48 object-contain" style={{ filter: "sepia(1) hue-rotate(15deg) saturate(2)" }} />
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Content behind doors */}
+      {/* Click prompt — shown for both Three.js and CSS mode */}
+      {!isOpening && (
+        <div className="absolute bottom-16 w-full text-center animate-pulse pointer-events-none z-20">
+          <p className="text-[#FCD34D] font-serif text-2xl tracking-widest drop-shadow-[0_0_12px_rgba(252,211,77,0.9)]">
+            {getClickText()}
+          </p>
+          <p className="text-[#94A3B8] text-sm mt-2 tracking-[0.3em] font-sans">
+            {lang === "ta" ? "தெய்வீக அழைப்பு" : lang === "hi" ? "एक दिव्य निमंत्रण" : "A divine invitation awaits"}
+          </p>
+        </div>
+      )}
+
+      {/* HTML overlay after doors open */}
       {showContent && (
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
-          {/* Falling Petals */}
+          {/* CSS petal shower */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(60)].map((_, i) => (
-              <div 
-                key={i} 
-                className="absolute w-3 h-3 bg-[#D97706] rounded-full opacity-80"
+            {[...Array(50)].map((_, i) => (
+              <div key={i} className="absolute"
                 style={{
                   left: `${Math.random() * 100}%`,
-                  top: `-10%`,
-                  animation: `fall ${Math.random() * 3 + 3}s linear ${Math.random() * 2}s infinite`,
-                  transform: `rotate(${Math.random() * 360}deg)`
+                  top: "-8%",
+                  width: `${7 + Math.random() * 9}px`,
+                  height: `${7 + Math.random() * 9}px`,
+                  background: i % 4 === 0 ? "#FFF" : i % 4 === 1 ? "#FCD34D" : i % 4 === 2 ? "#D97706" : "#FBBF24",
+                  borderRadius: "50% 0 50% 0",
+                  animation: `fall ${3 + Math.random() * 4}s linear ${Math.random() * 2}s infinite`,
+                  opacity: 0.75,
                 }}
-              ></div>
+              />
             ))}
           </div>
 
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.5 }} className="text-center">
-            <h1 className="font-serif text-5xl md:text-8xl text-[#FCD34D] drop-shadow-[0_0_20px_rgba(217,119,6,0.6)] tracking-wide">Priya & Arjun</h1>
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 1 }}>
-              <p className={`mt-8 text-2xl ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} font-sans tracking-widest`}>सर्वे भवन्तु सुखिनः</p>
-              <p className={`text-lg ${theme==='day'?'text-[#1E1B4B]':'text-[#94A3B8]'} italic`}>May all beings be happy</p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 40 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 2, ease: "easeOut" }}
+            className="text-center px-6"
+          >
+            <p className="text-[#FCD34D] font-serif text-sm md:text-base tracking-[0.45em] uppercase mb-5 opacity-80">
+              ॐ गणेशाय नमः
+            </p>
+            <h1 className="font-serif text-5xl md:text-8xl text-[#FCD34D] drop-shadow-[0_0_35px_rgba(217,119,6,0.9)] tracking-wide">
+              Priya &amp; Arjun
+            </h1>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 1.2 }}>
+              <p className="mt-7 text-xl md:text-2xl text-[#E2E8F0] font-sans tracking-widest">
+                सर्वे भवन्तु सुखिनः
+              </p>
+              <p className="text-base text-[#94A3B8] italic mt-1">May all beings be happy</p>
             </motion.div>
-            
-            <motion.button 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2, duration: 1 }}
+            <motion.button
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1 }}
               onClick={onOpen}
-              className="mt-12 pointer-events-auto px-8 py-3 bg-transparent border-2 border-[#D97706] text-[#FCD34D] font-serif text-xl rounded-full hover:bg-[#D97706] hover:text-[#0F0A1E] transition-all duration-500 shadow-[0_0_15px_rgba(217,119,6,0.4)]"
+              className="mt-12 pointer-events-auto px-10 py-4 bg-transparent border-2 border-[#D97706] text-[#FCD34D] font-serif text-xl rounded-full hover:bg-[#D97706] hover:text-[#0F0A1E] transition-all duration-500 shadow-[0_0_30px_rgba(217,119,6,0.5)] backdrop-blur-sm"
             >
               {getEnterText()}
             </motion.button>
           </motion.div>
         </div>
       )}
+
       <style>{`
-        @keyframes fall {
-          to { transform: translateY(110vh) rotate(720deg); }
-        }
+        @keyframes fall { to { transform: translateY(112vh) rotate(720deg); } }
       `}</style>
     </motion.div>
   );
