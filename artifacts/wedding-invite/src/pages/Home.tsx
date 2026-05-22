@@ -457,8 +457,8 @@ function Gate({ onOpen, lang, theme }: { onOpen: () => void; lang: string; theme
               <svg width="100%" height="100%"><defs><pattern id="dp-l" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="#D97706" strokeWidth="2"/><circle cx="50" cy="50" r="20" fill="none" stroke="#FCD34D" strokeWidth="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#dp-l)"/></svg>
             </div>
             {/* Ganesha silhouette on left door */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-30">
-              <img src="/ganesha.png" alt="" className="w-48 h-48 object-contain" style={{ filter: "sepia(1) hue-rotate(15deg) saturate(2)" }} />
+            <div className="absolute inset-0 flex items-center justify-center opacity-35">
+              <img src="/ganesha.png" alt="" className="w-28 h-28 object-contain" style={{ filter: "sepia(1) hue-rotate(15deg) saturate(2)" }} />
             </div>
           </div>
           {/* Right door */}
@@ -473,8 +473,8 @@ function Gate({ onOpen, lang, theme }: { onOpen: () => void; lang: string; theme
             <div className="absolute inset-0 opacity-25">
               <svg width="100%" height="100%"><defs><pattern id="dp-r" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="#D97706" strokeWidth="2"/><circle cx="50" cy="50" r="20" fill="none" stroke="#FCD34D" strokeWidth="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#dp-r)"/></svg>
             </div>
-            <div className="absolute inset-0 flex items-center justify-center opacity-30">
-              <img src="/ganesha.png" alt="" className="w-48 h-48 object-contain" style={{ filter: "sepia(1) hue-rotate(15deg) saturate(2)" }} />
+            <div className="absolute inset-0 flex items-center justify-center opacity-35">
+              <img src="/ganesha.png" alt="" className="w-28 h-28 object-contain" style={{ filter: "sepia(1) hue-rotate(15deg) saturate(2)" }} />
             </div>
           </div>
         </div>
@@ -616,7 +616,7 @@ function Hero({ lang, theme }: { lang: string, theme: string }) {
   };
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center relative py-20 px-4">
+    <section className="min-h-screen flex flex-col items-center justify-center relative py-10 px-4">
       {/* Music Toggle */}
       <button 
         onClick={toggleMusic} 
@@ -643,7 +643,7 @@ function Hero({ lang, theme }: { lang: string, theme: string }) {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, delay: 0.5 }}
-          className="font-serif text-6xl md:text-9xl text-[#FCD34D] drop-shadow-[0_5px_15px_rgba(217,119,6,0.6)] mb-6"
+          className="font-serif text-4xl md:text-6xl text-[#FCD34D] drop-shadow-[0_5px_15px_rgba(217,119,6,0.6)] mb-4"
         >
           Priya & Arjun
         </motion.h1>
@@ -651,11 +651,11 @@ function Hero({ lang, theme }: { lang: string, theme: string }) {
         {/* Countdown */}
         <motion.div 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1 }}
-          className="flex gap-4 md:gap-8 my-8"
+          className="flex gap-3 md:gap-5 my-5"
         >
           {Object.entries(timeLeft).map(([unit, value]) => (
             <div key={unit} className="flex flex-col items-center">
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-[#1E1B4B]/80 backdrop-blur border border-[#D97706]/50 rounded-lg flex items-center justify-center text-2xl md:text-3xl font-serif text-[#FCD34D] shadow-[0_0_10px_rgba(217,119,6,0.2)]">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-[#1E1B4B]/80 backdrop-blur border border-[#D97706]/50 rounded-lg flex items-center justify-center text-lg md:text-2xl font-serif text-[#FCD34D] shadow-[0_0_10px_rgba(217,119,6,0.2)]">
                 {String(value).padStart(2, '0')}
               </div>
               <span className={`mt-2 ${theme==='day'?'text-[#1E1B4B]':'text-[#94A3B8]'} uppercase text-[10px] md:text-xs tracking-widest`}>{unit}</span>
@@ -667,7 +667,7 @@ function Hero({ lang, theme }: { lang: string, theme: string }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
-          className={`text-xl md:text-3xl ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} tracking-widest mb-3 font-medium uppercase`}
+          className={`text-base md:text-xl ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} tracking-widest mb-2 font-medium uppercase`}
         >
           {lang === "ta" ? "சனிக்கிழமை, டிசம்பர் 14, 2024" : lang === "hi" ? "शनिवार, 14 दिसंबर, 2024" : "Saturday, December 14, 2024"}
         </motion.p>
@@ -675,7 +675,7 @@ function Hero({ lang, theme }: { lang: string, theme: string }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 2 }}
-          className={`text-lg md:text-2xl ${theme==='day'?'text-[#1E1B4B]':'text-[#CBD5E1]'} font-serif italic`}
+          className={`text-sm md:text-lg ${theme==='day'?'text-[#1E1B4B]':'text-[#CBD5E1]'} font-serif italic`}
         >
           {lang === "ta" ? "சென்னை, தமிழ்நாடு" : lang === "hi" ? "चेन्नई, तमिलनाडु" : "Chennai, Tamil Nadu"}
         </motion.p>
@@ -728,19 +728,19 @@ function Story({ lang, theme }: { lang: string, theme: string }) {
     <section ref={containerRef} className="h-screen flex items-center overflow-hidden border-t border-[#D97706]/30 relative" style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}>
       {theme === "dark" && <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#3B0764] to-[#0F0A1E]"></div>}
       
-      <div className="story-track flex gap-20 px-[10vw] w-[500vw]">
+      <div className="story-track flex gap-10 px-[10vw] w-[500vw]">
         {chapters.map((chap, i) => (
-          <div key={i} className="w-[80vw] max-w-xl h-[60vh] shrink-0 border border-[#D97706] p-12 rounded-lg flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden group" style={bgStyle}>
+          <div key={i} className="w-[80vw] max-w-xl h-[50vh] shrink-0 border border-[#D97706] p-6 rounded-lg flex flex-col justify-center items-center text-center shadow-2xl relative overflow-hidden group" style={bgStyle}>
             <div className="absolute inset-2 border border-[#D97706]/30 rounded opacity-50 pointer-events-none"></div>
             
-            <svg viewBox="0 0 100 100" className="w-20 h-20 mb-8 text-[#FCD34D] fill-current group-hover:scale-110 transition-transform duration-500">
+            <svg viewBox="0 0 100 100" className="w-12 h-12 mb-3 text-[#FCD34D] fill-current group-hover:scale-110 transition-transform duration-500">
                <path d="M50,10 C60,40 90,50 60,60 C50,90 40,60 10,50 C40,40 50,10 50,10 Z" />
             </svg>
 
-            <h3 className="font-serif text-4xl text-[#FCD34D] mb-6 relative z-10">
+            <h3 className="font-serif text-2xl text-[#FCD34D] mb-3 relative z-10">
               {lang === "ta" ? chap.titleTa : chap.title}
             </h3>
-            <p className={`text-xl ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} relative z-10 font-sans italic`}>
+            <p className={`text-base ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} relative z-10 font-sans italic`}>
               {chap.desc}
             </p>
           </div>
@@ -760,9 +760,9 @@ function Timeline({ lang, theme }: { lang: string, theme: string }) {
   ];
 
   return (
-    <section className="py-32 px-4 max-w-5xl mx-auto border-t border-[#D97706]/30">
-      <h2 className="font-serif text-6xl text-center text-[#FCD34D] mb-24 drop-shadow-lg">Ceremonies</h2>
-      <div className="space-y-16 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-[#D97706]/0 before:via-[#D97706] before:to-[#D97706]/0">
+    <section className="py-16 px-4 max-w-5xl mx-auto border-t border-[#D97706]/30">
+      <h2 className="font-serif text-4xl text-center text-[#FCD34D] mb-10 drop-shadow-lg">Ceremonies</h2>
+      <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-[#D97706]/0 before:via-[#D97706] before:to-[#D97706]/0">
         {events.map((ev, i) => (
           <motion.div 
             initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
@@ -775,10 +775,10 @@ function Timeline({ lang, theme }: { lang: string, theme: string }) {
             <div className="flex items-center justify-center w-12 h-12 rounded-full border-4 border-[#D97706] bg-[#0F0A1E] text-[#FCD34D] shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_15px_rgba(217,119,6,0.6)] absolute left-0 md:left-1/2 -translate-x-1/2 z-10">
               ✦
             </div>
-            <div className={`w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] border border-[#D97706]/50 ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]/80'} backdrop-blur p-8 rounded-lg ml-auto md:ml-0 hover:bg-[#3B0764]/10 transition-colors shadow-xl`}>
-              <h3 className="text-3xl font-serif text-[#FCD34D] mb-2">{lang === "ta" ? ev.nameTa : ev.name}</h3>
-              <p className={`text-xl ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} font-medium mb-3`}>{ev.date}</p>
-              <p className={`text-base ${theme==='day'?'text-[#1E1B4B]/80':'text-[#CBD5E1]'} mb-5`}>{ev.venue}</p>
+            <div className={`w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] border border-[#D97706]/50 ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]/80'} backdrop-blur p-5 rounded-lg ml-auto md:ml-0 hover:bg-[#3B0764]/10 transition-colors shadow-xl`}>
+              <h3 className="text-xl font-serif text-[#FCD34D] mb-1">{lang === "ta" ? ev.nameTa : ev.name}</h3>
+              <p className={`text-sm ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} font-medium mb-2`}>{ev.date}</p>
+              <p className={`text-xs ${theme==='day'?'text-[#1E1B4B]/80':'text-[#CBD5E1]'} mb-3`}>{ev.venue}</p>
               <span className="inline-block px-4 py-1.5 bg-[#D97706]/20 border border-[#D97706]/50 rounded-full text-sm font-medium text-[#D97706] md:text-[#FCD34D] uppercase tracking-wider">Dress Code: {ev.dress}</span>
             </div>
           </motion.div>
@@ -794,7 +794,7 @@ function MuhurthamSpecial({ lang, theme }: { lang: string, theme: string }) {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-50px" }}
-      className="py-32 px-4 relative overflow-hidden flex justify-center items-center"
+      className="py-16 px-4 relative overflow-hidden flex justify-center items-center"
       style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}
     >
       {/* Background Pulse */}
@@ -809,33 +809,33 @@ function MuhurthamSpecial({ lang, theme }: { lang: string, theme: string }) {
         viewport={{ once: true }}
         className={`relative z-10 w-full max-w-4xl p-1 md:p-2 rounded-2xl ${theme==='day'?'bg-[#EDE9FF]':'bg-[#0F0A1E]'} shadow-[0_0_40px_rgba(217,119,6,0.3)] shimmer-border`}
       >
-        <div className="border-4 border-double border-[#D97706] rounded-xl p-8 md:p-16 flex flex-col items-center text-center relative overflow-hidden">
+        <div className="border-4 border-double border-[#D97706] rounded-xl p-5 md:p-8 flex flex-col items-center text-center relative overflow-hidden">
           
           <div className="absolute top-0 w-full flex justify-center mt-[-10px]">
             {/* Swaying Bell */}
-            <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#FCD34D] fill-current drop-shadow-md origin-top animate-[sway_3s_ease-in-out_infinite_alternate]">
+            <svg viewBox="0 0 100 100" className="w-14 h-14 text-[#FCD34D] fill-current drop-shadow-md origin-top animate-[sway_3s_ease-in-out_infinite_alternate]">
               <path d="M50 0 L50 20 M30 60 Q50 30 70 60 L70 70 L30 70 Z M45 70 L55 70 L55 80 Q50 85 45 80 Z" stroke="#D97706" strokeWidth="4" />
             </svg>
           </div>
 
-          <h2 className="font-serif text-4xl md:text-5xl text-[#FCD34D] mt-16 mb-4 uppercase tracking-widest">
+          <h2 className="font-serif text-2xl md:text-3xl text-[#FCD34D] mt-8 mb-2 uppercase tracking-widest">
             {lang === "ta" ? "முகூர்த்தம்" : "Muhurtham"}
           </h2>
           
-          <p className="font-serif text-3xl md:text-6xl text-[#D97706] font-bold my-8">
+          <p className="font-serif text-xl md:text-3xl text-[#D97706] font-bold my-4">
             December 14, 2024 at 9:30 AM IST
           </p>
-          <p className={`text-xl ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} uppercase tracking-widest mb-10`}>
+          <p className={`text-sm ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} uppercase tracking-widest mb-4`}>
             Saturday (Shubha Muhurtham)
           </p>
 
-          <h3 className="font-serif text-3xl md:text-5xl text-[#FCD34D] mb-2">கல்யாண வாழ்த்துக்கள்</h3>
-          <p className={`text-lg ${theme==='day'?'text-[#1E1B4B]':'text-[#CBD5E1]'} italic mb-10`}>Blessings for a Prosperous Marriage</p>
+          <h3 className="font-serif text-xl md:text-2xl text-[#FCD34D] mb-1">கல்யாண வாழ்த்துக்கள்</h3>
+          <p className={`text-sm ${theme==='day'?'text-[#1E1B4B]':'text-[#CBD5E1]'} italic mb-4`}>Blessings for a Prosperous Marriage</p>
 
-          <h3 className="font-sans text-3xl md:text-4xl text-[#FCD34D] mb-2">ॐ सह नाववतु</h3>
-          <p className={`text-lg ${theme==='day'?'text-[#1E1B4B]':'text-[#CBD5E1]'} italic mb-12`}>May we be protected together</p>
+          <h3 className="font-sans text-xl md:text-2xl text-[#FCD34D] mb-1">ॐ सह नाववतु</h3>
+          <p className={`text-sm ${theme==='day'?'text-[#1E1B4B]':'text-[#CBD5E1]'} italic mb-5`}>May we be protected together</p>
 
-          <div className="flex gap-8 justify-center">
+          <div className="flex gap-6 justify-center">
             {/* Lotus */}
             <svg viewBox="0 0 100 100" className="w-12 h-12 text-[#D97706] fill-current animate-[float_4s_ease-in-out_infinite]">
               <path d="M50 100 Q40 60 10 50 Q40 40 50 0 Q60 40 90 50 Q60 60 50 100 Z" />
@@ -882,25 +882,25 @@ function FamilyBlessings({ lang, theme }: { lang: string, theme: string }) {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-50px" }}
-      className="py-24 px-4 relative bg-[#0F0A1E]"
+      className="py-12 px-4 relative bg-[#0F0A1E]"
       style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}
     >
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 10px 10px, #D97706 2px, transparent 0)', backgroundSize: '40px 40px' }}></div>
       <div className="max-w-5xl mx-auto relative z-10">
-        <h2 className="font-serif text-4xl md:text-5xl text-center text-[#FCD34D] mb-4">
+        <h2 className="font-serif text-2xl md:text-3xl text-center text-[#FCD34D] mb-2">
           With the Blessings of Our Families
         </h2>
-        <h3 className="font-serif text-2xl text-center text-[#D97706] mb-16">
+        <h3 className="font-serif text-lg text-center text-[#D97706] mb-8">
           குடும்பத்தாரின் ஆசீர்வாதத்துடன்
         </h3>
 
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid md:grid-cols-2 gap-6">
           {/* Bride's Family */}
-          <div className={`border-2 border-[#D97706] rounded-xl p-8 relative flex flex-col items-center text-center ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]'} shadow-xl`}>
+          <div className={`border-2 border-[#D97706] rounded-xl p-5 relative flex flex-col items-center text-center ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]'} shadow-xl`}>
             <div className="absolute -top-6 bg-[#0F0A1E] p-2 rounded-full border-2 border-[#D97706]" style={{ backgroundColor: theme==='day'?'#F5F0FF':'#0F0A1E' }}>
                <svg viewBox="0 0 24 24" width="24" height="24" className="text-[#FCD34D]" fill="currentColor"><path d="M2 22h20v-2H2v2zm9-4h2v-5h5l-6-6-6 6h5v5z"/></svg>
             </div>
-            <h3 className="font-serif text-3xl text-[#FCD34D] mt-4 mb-6 border-b border-[#D97706]/30 pb-4 w-full">Bride's Family</h3>
+            <h3 className="font-serif text-xl text-[#FCD34D] mt-4 mb-3 border-b border-[#D97706]/30 pb-3 w-full">Bride's Family</h3>
             
             <div className="space-y-4 w-full">
               <div>
@@ -919,11 +919,11 @@ function FamilyBlessings({ lang, theme }: { lang: string, theme: string }) {
           </div>
 
           {/* Groom's Family */}
-          <div className={`border-2 border-[#D97706] rounded-xl p-8 relative flex flex-col items-center text-center ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]'} shadow-xl`}>
+          <div className={`border-2 border-[#D97706] rounded-xl p-5 relative flex flex-col items-center text-center ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]'} shadow-xl`}>
             <div className="absolute -top-6 bg-[#0F0A1E] p-2 rounded-full border-2 border-[#D97706]" style={{ backgroundColor: theme==='day'?'#F5F0FF':'#0F0A1E' }}>
                <svg viewBox="0 0 24 24" width="24" height="24" className="text-[#FCD34D]" fill="currentColor"><path d="M2 22h20v-2H2v2zm9-4h2v-5h5l-6-6-6 6h5v5z"/></svg>
             </div>
-            <h3 className="font-serif text-3xl text-[#FCD34D] mt-4 mb-6 border-b border-[#D97706]/30 pb-4 w-full">Groom's Family</h3>
+            <h3 className="font-serif text-xl text-[#FCD34D] mt-4 mb-3 border-b border-[#D97706]/30 pb-3 w-full">Groom's Family</h3>
             
             <div className="space-y-4 w-full">
               <div>
@@ -942,8 +942,8 @@ function FamilyBlessings({ lang, theme }: { lang: string, theme: string }) {
           </div>
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="font-serif text-2xl md:text-3xl text-[#FCD34D] italic">"Two souls, two families, one divine union."</p>
+        <div className="mt-8 text-center">
+          <p className="font-serif text-lg md:text-xl text-[#FCD34D] italic">"Two souls, two families, one divine union."</p>
         </div>
       </div>
     </motion.section>
@@ -1008,7 +1008,7 @@ function GuestWishes({ lang, theme }: { lang: string, theme: string }) {
   return (
     <motion.section 
       initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, margin: "-50px" }}
-      className="py-24 px-4 border-t border-[#D97706]/30 relative"
+      className="py-12 px-4 border-t border-[#D97706]/30 relative"
       style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#1E1B4B' }}
     >
       {showConfetti && (
@@ -1030,10 +1030,10 @@ function GuestWishes({ lang, theme }: { lang: string, theme: string }) {
       )}
 
       <div className="max-w-6xl mx-auto">
-        <h2 className="font-serif text-5xl text-center text-[#FCD34D] mb-4">Wishes Wall</h2>
-        <h3 className="font-serif text-2xl text-center text-[#D97706] mb-12">வாழ்த்துச் சுவர்</h3>
+        <h2 className="font-serif text-3xl text-center text-[#FCD34D] mb-2">Wishes Wall</h2>
+        <h3 className="font-serif text-lg text-center text-[#D97706] mb-7">வாழ்த்துச் சுவர்</h3>
 
-        <div className="grid lg:grid-cols-3 gap-12">
+        <div className="grid lg:grid-cols-3 gap-6">
           
           <div className="lg:col-span-1">
             <div className={`p-6 border border-[#D97706] rounded-xl shadow-xl sticky top-24 ${theme==='day'?'bg-[#EDE9FF]':'bg-[#0F0A1E]'}`}>
@@ -1187,7 +1187,7 @@ END:VCALENDAR`;
   };
 
   return (
-    <section className="py-24 px-4 border-t border-[#D97706]/30 relative overflow-hidden" style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}>
+    <section className="py-12 px-4 border-t border-[#D97706]/30 relative overflow-hidden" style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}>
       {/* Confetti */}
       {submitted && (
         <div className="absolute inset-0 pointer-events-none z-50">
@@ -1207,8 +1207,8 @@ END:VCALENDAR`;
         </div>
       )}
 
-      <div className={`max-w-xl mx-auto border-2 border-[#D97706] rounded-xl p-10 shadow-2xl relative z-10 ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]'}`}>
-        <h2 className="font-serif text-5xl text-center text-[#FCD34D] mb-10">RSVP</h2>
+      <div className={`max-w-xl mx-auto border-2 border-[#D97706] rounded-xl p-6 shadow-2xl relative z-10 ${theme==='day'?'bg-[#EDE9FF]':'bg-[#1E1B4B]'}`}>
+        <h2 className="font-serif text-3xl text-center text-[#FCD34D] mb-6">RSVP</h2>
         
         {submitted ? (
           <div className="text-center py-10">
@@ -1230,7 +1230,7 @@ END:VCALENDAR`;
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label className={`block ${theme==='day'?'text-[#1E1B4B]':'text-[#CBD5E1]'} mb-2 text-lg`}>Name</label>
               <input {...register("name")} className={`w-full border border-[#D97706]/50 rounded-lg px-4 py-3 text-lg focus:border-[#FCD34D] focus:ring-1 focus:ring-[#FCD34D] outline-none transition-all ${theme==='day'?'bg-white text-[#1E1B4B]':'bg-[#0F0A1E] text-white'}`} required />
@@ -1267,7 +1267,7 @@ END:VCALENDAR`;
               </div>
             </div>
             
-            <button type="submit" className="w-full bg-[#D97706] text-[#0F0A1E] font-bold text-xl py-4 rounded-lg hover:bg-[#FCD34D] transition-colors shadow-[0_0_15px_rgba(217,119,6,0.4)]">
+            <button type="submit" className="w-full bg-[#D97706] text-[#0F0A1E] font-bold text-base py-3 rounded-lg hover:bg-[#FCD34D] transition-colors shadow-[0_0_15px_rgba(217,119,6,0.4)]">
               Submit Response
             </button>
           </form>
@@ -1296,8 +1296,8 @@ function Venue({ lang, theme }: { lang: string, theme: string }) {
   }, [theme]);
 
   return (
-    <section className="py-24 px-4 border-t border-[#D97706]/30" style={{ backgroundColor: theme === 'day' ? '#EDE9FF' : '#1E1B4B' }}>
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-center">
+    <section className="py-12 px-4 border-t border-[#D97706]/30" style={{ backgroundColor: theme === 'day' ? '#EDE9FF' : '#1E1B4B' }}>
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-6 items-center">
         <div className="md:w-1/2 w-full">
           <div className="border-4 border-[#D97706] rounded-xl overflow-hidden shadow-2xl relative">
              <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] z-10"></div>
@@ -1310,15 +1310,15 @@ function Venue({ lang, theme }: { lang: string, theme: string }) {
           </div>
         </div>
         <div className="md:w-1/2 flex flex-col justify-center text-center md:text-left">
-          <h2 className="font-serif text-6xl text-[#FCD34D] mb-6 drop-shadow-md">Venue</h2>
-          <h3 className={`text-3xl ${theme==='day'?'text-[#1E1B4B]':'text-white'} mb-4 font-bold`}>Kapaleeshwarar Temple</h3>
-          <p className={`text-xl ${theme==='day'?'text-[#1E1B4B]/80':'text-[#CBD5E1]'} mb-6 leading-relaxed`}>
+          <h2 className="font-serif text-3xl text-[#FCD34D] mb-3 drop-shadow-md">Venue</h2>
+          <h3 className={`text-xl ${theme==='day'?'text-[#1E1B4B]':'text-white'} mb-2 font-bold`}>Kapaleeshwarar Temple</h3>
+          <p className={`text-sm ${theme==='day'?'text-[#1E1B4B]/80':'text-[#CBD5E1]'} mb-4 leading-relaxed`}>
             Vadada Maada Veedhi,<br/>
             Mylapore, Chennai,<br/>
             Tamil Nadu 600004
           </p>
           
-          <div className="flex flex-col md:flex-row items-center gap-6 mb-8 justify-center md:justify-start">
+          <div className="flex flex-col md:flex-row items-center gap-4 mb-4 justify-center md:justify-start">
             <a href={mapLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-[#D97706] text-[#0F0A1E] font-bold rounded-full hover:bg-[#FCD34D] transition-colors shadow-lg">
               <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
               Get Directions
@@ -1379,8 +1379,8 @@ function Gallery({ lang, theme }: { lang: string, theme: string }) {
   };
 
   return (
-    <section className="py-24 px-4 border-t border-[#D97706]/30" style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}>
-      <h2 className="font-serif text-5xl text-center text-[#FCD34D] mb-12">Shared Memories</h2>
+    <section className="py-12 px-4 border-t border-[#D97706]/30" style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}>
+      <h2 className="font-serif text-3xl text-center text-[#FCD34D] mb-6">Shared Memories</h2>
       
       <div className="max-w-6xl mx-auto mb-10 text-center">
          <label className="cursor-pointer inline-block px-6 py-3 border-2 border-[#D97706] text-[#D97706] md:text-[#FCD34D] font-bold rounded-full hover:bg-[#D97706]/20 transition-colors">
@@ -1389,7 +1389,7 @@ function Gallery({ lang, theme }: { lang: string, theme: string }) {
          </label>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[250px]">
+      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[160px]">
         {photos.map((src, i) => (
           <div key={`photo-${i}`} className="border-2 border-[#D97706] rounded-lg overflow-hidden cursor-pointer relative group" onClick={() => setSelectedIdx(i)}>
             <img src={src} alt="Guest memory" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
@@ -1470,15 +1470,15 @@ function LiveStream({ lang, theme }: { lang: string, theme: string }) {
   const bgImage = `url('data:image/svg+xml;base64,${btoa(`<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4"><rect width="4" height="4" fill="${bgColor}"/><rect width="1" height="1" fill="${decodeURIComponent(patternColor)}"/></svg>`)}')`;
 
   return (
-    <section className="py-24 px-4 border-t border-[#D97706]/30" style={{ backgroundColor: bgColor, backgroundImage: bgImage }}>
-      <div className="max-w-5xl mx-auto text-center bg-[#0F0A1E]/80 backdrop-blur p-8 rounded-xl border border-[#D97706]/30">
-        <h2 className="font-serif text-5xl text-[#FCD34D] mb-4">Live Broadcast</h2>
-        <p className="text-xl text-[#CBD5E1] mb-12">For our family and friends across the globe.</p>
+    <section className="py-12 px-4 border-t border-[#D97706]/30" style={{ backgroundColor: bgColor, backgroundImage: bgImage }}>
+      <div className="max-w-5xl mx-auto text-center bg-[#0F0A1E]/80 backdrop-blur p-5 rounded-xl border border-[#D97706]/30">
+        <h2 className="font-serif text-3xl text-[#FCD34D] mb-2">Live Broadcast</h2>
+        <p className="text-sm text-[#CBD5E1] mb-6">For our family and friends across the globe.</p>
         
-        <div className="flex justify-center gap-4 md:gap-6 mb-12">
+        <div className="flex justify-center gap-3 md:gap-5 mb-6">
           {Object.entries(timeLeft).map(([unit, value]) => (
             <div key={unit} className="flex flex-col items-center">
-              <div className="w-16 h-16 md:w-20 md:h-20 bg-[#0F0A1E] border-2 border-[#D97706] rounded-lg flex items-center justify-center text-2xl md:text-3xl font-serif text-[#FCD34D] shadow-[0_0_10px_rgba(217,119,6,0.3)]">
+              <div className="w-12 h-12 md:w-16 md:h-16 bg-[#0F0A1E] border-2 border-[#D97706] rounded-lg flex items-center justify-center text-lg md:text-2xl font-serif text-[#FCD34D] shadow-[0_0_10px_rgba(217,119,6,0.3)]">
                 {String(value).padStart(2, '0')}
               </div>
               <span className="mt-2 text-[#94A3B8] uppercase text-[10px] md:text-xs tracking-wider">{unit}</span>
@@ -1491,7 +1491,7 @@ function LiveStream({ lang, theme }: { lang: string, theme: string }) {
             <path d="M23 7l-7 5 7 5V7z" />
             <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
           </svg>
-          <p className="text-2xl text-[#E2E8F0] font-serif">Stream begins shortly</p>
+          <p className="text-lg text-[#E2E8F0] font-serif">Stream begins shortly</p>
           <div className="absolute top-4 right-4 flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
             <span className="text-red-500 text-sm font-bold uppercase tracking-widest">Offline</span>
@@ -1615,12 +1615,12 @@ END:VCALENDAR`;
   ];
 
   return (
-    <section className={`py-24 px-4 border-t border-[#D97706]/30 bg-gradient-to-b ${theme==='day'?'from-[#F5F0FF] to-[#EDE9FF]':'from-[#0F0A1E] to-[#1E1B4B]'}`}>
+    <section className={`py-12 px-4 border-t border-[#D97706]/30 bg-gradient-to-b ${theme==='day'?'from-[#F5F0FF] to-[#EDE9FF]':'from-[#0F0A1E] to-[#1E1B4B]'}`}>
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="font-serif text-5xl text-[#FCD34D] mb-4">Share the Joy</h2>
-        <h3 className="font-serif text-2xl text-[#D97706] mb-8">மகிழ்ச்சியை பகிரவும்</h3>
+        <h2 className="font-serif text-3xl text-[#FCD34D] mb-2">Share the Joy</h2>
+        <h3 className="font-serif text-lg text-[#D97706] mb-4">மகிழ்ச்சியை பகிரவும்</h3>
 
-        <div className="flex items-center justify-center gap-4 mb-12">
+        <div className="flex items-center justify-center gap-4 mb-6">
           <div className="h-px bg-gradient-to-r from-transparent via-[#D97706] to-transparent w-32"></div>
           <Share2 className="text-[#FCD34D]" />
           <div className="h-px bg-gradient-to-l from-transparent via-[#D97706] to-transparent w-32"></div>
@@ -1666,7 +1666,7 @@ END:VCALENDAR`;
 
 function Footer({ lang, theme }: { lang: string, theme: string }) {
   return (
-    <footer className="py-20 border-t border-[#D97706]/50 text-center relative overflow-hidden" style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}>
+    <footer className="py-10 border-t border-[#D97706]/50 text-center relative overflow-hidden" style={{ backgroundColor: theme === 'day' ? '#F5F0FF' : '#0F0A1E' }}>
       <div className="absolute inset-0 opacity-5 flex items-center justify-center pointer-events-none">
          <svg viewBox="0 0 100 100" className="w-[800px] h-[800px] fill-none stroke-[#FCD34D]" strokeWidth="0.5">
            {[...Array(12)].map((_, i) => (
@@ -1675,10 +1675,10 @@ function Footer({ lang, theme }: { lang: string, theme: string }) {
          </svg>
       </div>
       <div className="relative z-10">
-        <h2 className="font-serif text-7xl text-[#FCD34D] mb-6 drop-shadow-lg">P ♡ A</h2>
-        <p className={`text-2xl ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} mb-8 tracking-widest uppercase font-serif`}>#PriyaWedArjun</p>
+        <h2 className="font-serif text-5xl text-[#FCD34D] mb-3 drop-shadow-lg">P ♡ A</h2>
+        <p className={`text-lg ${theme==='day'?'text-[#1E1B4B]':'text-[#E2E8F0]'} mb-5 tracking-widest uppercase font-serif`}>#PriyaWedArjun</p>
         
-        <div className="flex justify-center gap-6 mb-12">
+        <div className="flex justify-center gap-4 mb-6">
           <a href="#" className="w-12 h-12 rounded-full border border-[#D97706] flex items-center justify-center text-[#FCD34D] hover:bg-[#D97706]/20 transition-colors">
             W
           </a>
