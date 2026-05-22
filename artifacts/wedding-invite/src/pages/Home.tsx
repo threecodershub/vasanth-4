@@ -43,13 +43,16 @@ export default function Home() {
       {opened && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
           <Hero lang={lang} theme={theme} />
+          <BommaiStrip theme={theme} uid="s1" />
           <Story lang={lang} theme={theme} />
           <Timeline lang={lang} theme={theme} />
+          <BommaiStrip theme={theme} uid="s2" />
           <MuhurthamSpecial lang={lang} theme={theme} />
           <FamilyBlessings lang={lang} theme={theme} />
           <GuestWishes lang={lang} theme={theme} />
           <RSVP lang={lang} theme={theme} />
           <Venue lang={lang} theme={theme} />
+          <BommaiStrip theme={theme} uid="s3" />
           <Gallery lang={lang} theme={theme} />
           <LiveStream lang={lang} theme={theme} />
           <SmartSharing lang={lang} theme={theme} />
@@ -1081,15 +1084,9 @@ function GuestWishes({ lang, theme }: { lang: string, theme: string }) {
                   className={`p-6 border border-[#D97706]/50 rounded-xl hover:scale-[1.02] transition-transform ${theme==='day'?'bg-gradient-to-br from-[#EDE9FF] to-white':'bg-gradient-to-br from-[#3B0764] to-[#1E1B4B]'}`}
                 >
                   <div className="flex items-start gap-4 mb-4">
-                    {wish.photo ? (
-                      <div className="w-12 h-12 rounded-full overflow-hidden border border-[#D97706] shrink-0">
-                        <img src={wish.photo} className="w-full h-full object-cover" alt={wish.name} />
-                      </div>
-                    ) : (
-                      <div className="w-12 h-12 rounded-full bg-[#0F0A1E] border border-[#D97706] flex justify-center items-center text-[#FCD34D] font-serif text-xl shrink-0 shadow-inner">
-                        {wish.name.charAt(0)}
-                      </div>
-                    )}
+                    <div className="w-12 h-12 rounded-full bg-[#0F0A1E] border border-[#D97706] flex justify-center items-center text-[#FCD34D] font-serif text-xl shrink-0 shadow-inner">
+                      {wish.name.charAt(0)}
+                    </div>
                     <div>
                       <h4 className="font-serif text-lg text-[#FCD34D]">{wish.name}</h4>
                       <p className="text-xs text-[#94A3B8]">Guest</p>
@@ -1693,6 +1690,486 @@ function Footer({ lang, theme }: { lang: string, theme: string }) {
         <p className="text-[#94A3B8] text-sm tracking-widest uppercase">Made with 🤍 in India</p>
       </div>
     </footer>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TAMIL BOMMAI (GOLU DOLL) SVG COMPONENTS
+   Each doll takes a `p` (prefix) prop so gradient/pattern IDs
+   are unique per page instance, preventing DOM ID conflicts.
+═══════════════════════════════════════════════════════════════ */
+
+function BrideBommai({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 64 108" width="64" height="108" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id={`${p}-bf`} cx="42%" cy="35%" r="58%">
+          <stop offset="0%" stopColor="#FDDBB4"/>
+          <stop offset="100%" stopColor="#C8825A"/>
+        </radialGradient>
+        <radialGradient id={`${p}-bb`} cx="50%" cy="25%" r="65%">
+          <stop offset="0%" stopColor="#FF6B6B"/>
+          <stop offset="100%" stopColor="#8B0000"/>
+        </radialGradient>
+        <radialGradient id={`${p}-bh`} cx="40%" cy="30%" r="60%">
+          <stop offset="0%" stopColor="#3D1C00"/>
+          <stop offset="100%" stopColor="#0A0500"/>
+        </radialGradient>
+      </defs>
+      {/* Hair bun */}
+      <ellipse cx="32" cy="11" rx="13" ry="9" fill={`url(#${p}-bh)`}/>
+      {/* Flowers in hair */}
+      {[22,32,42].map((x,i) => (
+        <g key={i}>
+          <circle cx={x} cy="7" r="3.5" fill={i===1?"#FF9ECD":"#FFD700"}/>
+          <circle cx={x} cy="7" r="1.5" fill="#FFF"/>
+        </g>
+      ))}
+      {/* Face */}
+      <ellipse cx="32" cy="27" rx="15" ry="17" fill={`url(#${p}-bf)`} stroke="#C07848" strokeWidth="0.6"/>
+      {/* Bindi */}
+      <circle cx="32" cy="17" r="2.2" fill="#DC143C"/>
+      <circle cx="32" cy="17" r="0.8" fill="#FFD700"/>
+      {/* Eyebrows */}
+      <path d="M23 22 Q26 20 29 22" fill="none" stroke="#3D1C00" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M35 22 Q38 20 41 22" fill="none" stroke="#3D1C00" strokeWidth="1.2" strokeLinecap="round"/>
+      {/* Eyes */}
+      <ellipse cx="26" cy="25" rx="3.5" ry="2.5" fill="#1A0800"/>
+      <ellipse cx="38" cy="25" rx="3.5" ry="2.5" fill="#1A0800"/>
+      <circle cx="25" cy="24" r="1" fill="white"/>
+      <circle cx="37" cy="24" r="1" fill="white"/>
+      {/* Nose */}
+      <ellipse cx="32" cy="30" rx="1.5" ry="1" fill="#B86E3A"/>
+      {/* Smile */}
+      <path d="M27 34 Q32 39 37 34" fill="none" stroke="#8B4513" strokeWidth="1.4" strokeLinecap="round"/>
+      {/* Earrings */}
+      <circle cx="17" cy="28" r="3" fill="#FFD700" stroke="#D97706" strokeWidth="0.7"/>
+      <circle cx="47" cy="28" r="3" fill="#FFD700" stroke="#D97706" strokeWidth="0.7"/>
+      <ellipse cx="17" cy="32" rx="1.5" ry="3" fill="#FFD700"/>
+      <ellipse cx="47" cy="32" rx="1.5" ry="3" fill="#FFD700"/>
+      {/* Neck */}
+      <rect x="27" y="43" width="10" height="6" rx="3" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5"/>
+      {/* Necklace */}
+      <path d="M22 47 Q32 52 42 47" fill="none" stroke="#FFD700" strokeWidth="2"/>
+      {[24,28,32,36,40].map((x,i) => <circle key={i} cx={x} cy={48} r="1.5" fill="#FFD700"/>)}
+      {/* Saree body */}
+      <path d="M15 49 Q8 104 10 107 L54 107 Q56 104 49 49 Z" fill={`url(#${p}-bb)`}/>
+      {/* Saree gold border */}
+      <path d="M15 49 Q8 104 10 107" fill="none" stroke="#FFD700" strokeWidth="2.5"/>
+      <path d="M49 49 Q56 104 54 107" fill="none" stroke="#FFD700" strokeWidth="2.5"/>
+      {/* Saree decorative stripes */}
+      {[60,72,84].map((y,i) => (
+        <path key={i} d={`M${18+i*2} ${y} Q32 ${y+3} ${46-i*2} ${y}`} fill="none" stroke="#FFD700" strokeWidth="1" opacity="0.6"/>
+      ))}
+      {/* Blouse */}
+      <path d="M20 49 Q32 44 44 49 L44 56 Q32 60 20 56 Z" fill="#228B22" stroke="#155215" strokeWidth="0.5"/>
+      {/* Arms */}
+      <ellipse cx="10" cy="62" rx="5" ry="13" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5" transform="rotate(20 10 62)"/>
+      <ellipse cx="54" cy="62" rx="5" ry="13" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5" transform="rotate(-20 54 62)"/>
+      {/* Bangles */}
+      {[0,3,6].map(dy => (
+        <g key={dy}>
+          <rect x="4" y={68+dy} width="9" height="2" rx="1" fill={dy===0?"#FFD700":dy===3?"#DC143C":"#228B22"}/>
+          <rect x="51" y={68+dy} width="9" height="2" rx="1" fill={dy===0?"#FFD700":dy===3?"#DC143C":"#228B22"}/>
+        </g>
+      ))}
+      {/* Feet */}
+      <ellipse cx="23" cy="106" rx="7" ry="3.5" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5"/>
+      <ellipse cx="41" cy="106" rx="7" ry="3.5" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5"/>
+      {/* Toe rings */}
+      <circle cx="20" cy="107" r="1.2" fill="none" stroke="#FFD700" strokeWidth="0.8"/>
+      <circle cx="38" cy="107" r="1.2" fill="none" stroke="#FFD700" strokeWidth="0.8"/>
+    </svg>
+  );
+}
+
+function GroomBommai({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 64 108" width="64" height="108" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id={`${p}-gf`} cx="42%" cy="35%" r="58%">
+          <stop offset="0%" stopColor="#FDDBB4"/>
+          <stop offset="100%" stopColor="#C8825A"/>
+        </radialGradient>
+        <linearGradient id={`${p}-gt`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FF8C00"/>
+          <stop offset="100%" stopColor="#8B4500"/>
+        </linearGradient>
+        <linearGradient id={`${p}-gd`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#FFFDE7"/>
+          <stop offset="100%" stopColor="#E0D5A0"/>
+        </linearGradient>
+      </defs>
+      {/* Turban base */}
+      <ellipse cx="32" cy="14" rx="18" ry="11" fill={`url(#${p}-gt)`}/>
+      {/* Turban folds */}
+      <path d="M14 12 Q32 5 50 12" fill="none" stroke="#FFD700" strokeWidth="2"/>
+      <path d="M14 15 Q32 8 50 15" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.6"/>
+      {/* Turban jewel */}
+      <circle cx="32" cy="8" r="4" fill="#FFD700" stroke="#D97706" strokeWidth="0.8"/>
+      <circle cx="32" cy="8" r="2" fill="#DC143C"/>
+      {/* Face */}
+      <ellipse cx="32" cy="30" rx="14" ry="16" fill={`url(#${p}-gf)`} stroke="#C07848" strokeWidth="0.6"/>
+      {/* Eyebrows */}
+      <path d="M23 24 Q26 22 29 24" fill="none" stroke="#3D1C00" strokeWidth="1.2" strokeLinecap="round"/>
+      <path d="M35 24 Q38 22 41 24" fill="none" stroke="#3D1C00" strokeWidth="1.2" strokeLinecap="round"/>
+      {/* Eyes */}
+      <ellipse cx="26" cy="27" rx="3.5" ry="2.5" fill="#1A0800"/>
+      <ellipse cx="38" cy="27" rx="3.5" ry="2.5" fill="#1A0800"/>
+      <circle cx="25" cy="26" r="1" fill="white"/>
+      <circle cx="37" cy="26" r="1" fill="white"/>
+      {/* Moustache */}
+      <path d="M26 35 Q32 38 38 35" fill="none" stroke="#3D1C00" strokeWidth="2" strokeLinecap="round"/>
+      {/* Nose */}
+      <ellipse cx="32" cy="32" rx="1.5" ry="1" fill="#B86E3A"/>
+      {/* Earrings */}
+      <circle cx="18" cy="30" r="2" fill="#FFD700" stroke="#D97706" strokeWidth="0.5"/>
+      <circle cx="46" cy="30" r="2" fill="#FFD700" stroke="#D97706" strokeWidth="0.5"/>
+      {/* Neck */}
+      <rect x="27" y="45" width="10" height="6" rx="3" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5"/>
+      {/* Garland */}
+      <path d="M20 50 Q32 57 44 50" fill="none" stroke="#228B22" strokeWidth="3"/>
+      {[22,26,30,34,38,42].map((x,i) => (
+        <circle key={i} cx={x} cy={i%2===0?51:53} r="2" fill={i%3===0?"#FFD700":i%3===1?"#FFFFFF":"#FF6B9D"}/>
+      ))}
+      {/* Sherwani/Kurta body */}
+      <path d="M16 51 Q10 104 12 107 L52 107 Q54 104 48 51 Z" fill="#4B0082"/>
+      {/* Sherwani gold buttons */}
+      {[60,70,80,90].map(y => <circle key={y} cx={32} cy={y} r="2" fill="#FFD700"/>)}
+      {/* Sherwani border */}
+      <path d="M16 51 Q10 104 12 107" fill="none" stroke="#FFD700" strokeWidth="1.5"/>
+      <path d="M48 51 Q54 104 52 107" fill="none" stroke="#FFD700" strokeWidth="1.5"/>
+      {/* Dhoti below sherwani */}
+      <path d="M12 84 Q32 90 52 84 L52 107 L12 107 Z" fill={`url(#${p}-gd)`} stroke="#C8B860" strokeWidth="0.5"/>
+      {/* Dhoti fold lines */}
+      <path d="M12 88 Q32 93 52 88" fill="none" stroke="#C8B860" strokeWidth="0.8" opacity="0.6"/>
+      {/* Arms */}
+      <ellipse cx="9" cy="64" rx="5" ry="13" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5" transform="rotate(18 9 64)"/>
+      <ellipse cx="55" cy="64" rx="5" ry="13" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.5" transform="rotate(-18 55 64)"/>
+      {/* Feet with nagra shoes */}
+      <ellipse cx="22" cy="106" rx="8" ry="3.5" fill="#8B4513" stroke="#4A1A00" strokeWidth="0.8"/>
+      <ellipse cx="42" cy="106" rx="8" ry="3.5" fill="#8B4513" stroke="#4A1A00" strokeWidth="0.8"/>
+      <path d="M14 105 Q22 102 30 105" fill="none" stroke="#FFD700" strokeWidth="1"/>
+      <path d="M34 105 Q42 102 50 105" fill="none" stroke="#FFD700" strokeWidth="1"/>
+    </svg>
+  );
+}
+
+function GopuramBommai({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 70 120" width="70" height="120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id={`${p}-gw`} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#CC7722"/>
+          <stop offset="40%" stopColor="#FF9933"/>
+          <stop offset="100%" stopColor="#8B5E00"/>
+        </linearGradient>
+        <linearGradient id={`${p}-gi`} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#B8621A"/>
+          <stop offset="50%" stopColor="#E8831A"/>
+          <stop offset="100%" stopColor="#7A4000"/>
+        </linearGradient>
+      </defs>
+      {/* Base platform */}
+      <rect x="6" y="108" width="58" height="12" rx="2" fill="#8B5E00" stroke="#4A2E00" strokeWidth="0.8"/>
+      <rect x="10" y="106" width="50" height="5" rx="1" fill="#CC7722"/>
+      {/* Main tower body */}
+      <path d="M14 106 Q14 76 20 70 L50 70 Q56 76 56 106 Z" fill={`url(#${p}-gw)`}/>
+      {/* Doorway arch */}
+      <path d="M26 106 L26 92 Q35 86 44 92 L44 106 Z" fill="#3D1500"/>
+      <path d="M26 92 Q35 84 44 92" fill="none" stroke="#FFD700" strokeWidth="1.5"/>
+      {/* Tier 1 */}
+      <path d="M20 70 Q20 58 24 54 L46 54 Q50 58 50 70 Z" fill={`url(#${p}-gi)`} stroke="#4A2E00" strokeWidth="0.5"/>
+      {[0,1,2,3].map(i => <ellipse key={i} cx={26+i*7} cy={62} rx={2.5} ry={4} fill="#CC2200" stroke="#FFD700" strokeWidth="0.8"/>)}
+      {/* Tier 2 */}
+      <path d="M24 54 Q24 44 27 40 L43 40 Q46 44 46 54 Z" fill={`url(#${p}-gi)`} stroke="#4A2E00" strokeWidth="0.5"/>
+      {[0,1,2].map(i => <ellipse key={i} cx={28+i*7} cy={47} rx={2.2} ry={3.5} fill="#CC2200" stroke="#FFD700" strokeWidth="0.7"/>)}
+      {/* Tier 3 */}
+      <path d="M27 40 Q27 32 29 28 L41 28 Q43 32 43 40 Z" fill={`url(#${p}-gi)`} stroke="#4A2E00" strokeWidth="0.5"/>
+      {[0,1].map(i => <ellipse key={i} cx={31+i*8} cy={34} rx={2} ry={3} fill="#CC2200" stroke="#FFD700" strokeWidth="0.7"/>)}
+      {/* Tier 4 */}
+      <path d="M29 28 Q29 21 31 18 L39 18 Q41 21 41 28 Z" fill={`url(#${p}-gi)`} stroke="#4A2E00" strokeWidth="0.5"/>
+      {/* Kalasam (finial) */}
+      <ellipse cx="35" cy="16" rx="4" ry="5" fill="#FFD700" stroke="#D97706" strokeWidth="0.8"/>
+      <ellipse cx="35" cy="11" rx="3" ry="3.5" fill="#FFD700" stroke="#D97706" strokeWidth="0.7"/>
+      <circle cx="35" cy="8" r="3" fill="#FF8C00" stroke="#FFD700" strokeWidth="0.8"/>
+      <circle cx="35" cy="5" r="1.5" fill="#FFD700"/>
+      <line x1="35" y1="3" x2="35" y2="-2" stroke="#CC2200" strokeWidth="0.8"/>
+      {/* Side sculptures */}
+      {[16,54].map(x => (
+        <g key={x}>
+          <ellipse cx={x} cy={85} rx={3} ry={5} fill="#CC2200" stroke="#FFD700" strokeWidth="0.6"/>
+          <circle cx={x} cy={79} r={2} fill="#FFD700"/>
+        </g>
+      ))}
+      <line x1="14" y1="70" x2="56" y2="70" stroke="#FFD700" strokeWidth="1.2"/>
+      <line x1="20" y1="54" x2="50" y2="54" stroke="#FFD700" strokeWidth="1"/>
+      <line x1="24" y1="40" x2="46" y2="40" stroke="#FFD700" strokeWidth="0.9"/>
+      <line x1="27" y1="28" x2="43" y2="28" stroke="#FFD700" strokeWidth="0.8"/>
+    </svg>
+  );
+}
+
+function VilakkuBommai({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 50 110" width="50" height="110" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id={`${p}-vb`} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#8B6914"/>
+          <stop offset="40%" stopColor="#FFD700"/>
+          <stop offset="100%" stopColor="#8B6914"/>
+        </linearGradient>
+        <radialGradient id={`${p}-vf`} cx="50%" cy="80%" r="60%">
+          <stop offset="0%" stopColor="#FFFDE7"/>
+          <stop offset="40%" stopColor="#FF8C00"/>
+          <stop offset="100%" stopColor="#CC2200" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="25" cy="106" rx="18" ry="5" fill={`url(#${p}-vb)`} stroke="#4A3000" strokeWidth="0.8"/>
+      <ellipse cx="25" cy="103" rx="14" ry="4" fill={`url(#${p}-vb)`} stroke="#4A3000" strokeWidth="0.6"/>
+      <rect x="21" y="72" width="8" height="32" rx="3" fill={`url(#${p}-vb)`} stroke="#4A3000" strokeWidth="0.5"/>
+      <ellipse cx="25" cy="72" rx="12" ry="4" fill={`url(#${p}-vb)`} stroke="#4A3000" strokeWidth="0.8"/>
+      <rect x="22" y="50" width="6" height="23" rx="2" fill={`url(#${p}-vb)`} stroke="#4A3000" strokeWidth="0.5"/>
+      <path d="M12 50 Q25 44 38 50 L36 56 Q25 58 14 56 Z" fill={`url(#${p}-vb)`} stroke="#4A3000" strokeWidth="0.8"/>
+      <ellipse cx="25" cy="46" rx="4" ry="2.5" fill="#FFD700" stroke="#D97706" strokeWidth="0.6"/>
+      <path d="M25 44 Q21 38 23 30 Q25 24 27 30 Q29 38 25 44 Z" fill={`url(#${p}-vf)`}
+        style={{transformOrigin:'25px 44px', animation:'flame-flicker 1.2s ease-in-out infinite'}}/>
+      <path d="M25 42 Q23 37 24 32 Q25 28 26 32 Q27 37 25 42 Z" fill="#FFFFF0" opacity="0.7"
+        style={{transformOrigin:'25px 42px', animation:'flame-flicker 1.2s ease-in-out infinite 0.3s'}}/>
+      {[-1,1].map(s => (
+        <g key={s} transform={`translate(${s*16} -8)`}>
+          <path d={`M25 60 Q${25+s*8} 55 ${25+s*14} 55`} fill="none" stroke={`url(#${p}-vb)`} strokeWidth="3"/>
+          <path d={`M${25+s*14-4} 55 Q${25+s*14} 51 ${25+s*14+4} 55 L${25+s*14+3} 59 Q${25+s*14} 60 ${25+s*14-3} 59 Z`} fill={`url(#${p}-vb)`} stroke="#4A3000" strokeWidth="0.5"/>
+          <path d={`M${25+s*14} 53 Q${25+s*14-2} 48 ${25+s*14} 44 Q${25+s*14+2} 48 ${25+s*14} 53 Z`} fill={`url(#${p}-vf)`}
+            style={{transformOrigin:`${25+s*14}px 53px`, animation:`flame-flicker 1.4s ease-in-out infinite ${s>0?'0.2s':'0.5s'}`}}/>
+        </g>
+      ))}
+      {[80,88,96].map(y => <ellipse key={y} cx={25} cy={y} rx={5} ry={1.5} fill="none" stroke="#D97706" strokeWidth="0.8"/>)}
+    </svg>
+  );
+}
+
+function KalasamBommai({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 60 100" width="60" height="100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id={`${p}-kp`} cx="38%" cy="35%" r="60%">
+          <stop offset="0%" stopColor="#E8956D"/>
+          <stop offset="70%" stopColor="#B5451B"/>
+          <stop offset="100%" stopColor="#7A2800"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="30" cy="68" rx="22" ry="28" fill={`url(#${p}-kp)`} stroke="#7A2800" strokeWidth="0.8"/>
+      <ellipse cx="22" cy="56" rx="7" ry="9" fill="#FF9966" opacity="0.35"/>
+      <path d="M20 41 Q30 37 40 41 L38 48 Q30 50 22 48 Z" fill="#CC5500" stroke="#7A2800" strokeWidth="0.6"/>
+      <path d="M20 41 Q30 37 40 41" fill="none" stroke="#FFD700" strokeWidth="2.5"/>
+      {[-40,-20,0,20,40].map((angle, i) => (
+        <g key={i} transform={`translate(30,39) rotate(${angle})`}>
+          <ellipse cx="0" cy="-14" rx="4" ry="10" fill="#228B22" stroke="#155215" strokeWidth="0.5" transform={`rotate(${angle*0.3})`}/>
+          <line x1="0" y1="-6" x2="0" y2="-22" stroke="#7CBA40" strokeWidth="0.6"/>
+        </g>
+      ))}
+      <ellipse cx="30" cy="26" rx="10" ry="12" fill="#8B6914" stroke="#4A3000" strokeWidth="0.8"/>
+      <ellipse cx="30" cy="26" rx="7" ry="9" fill="#C8922A" stroke="#4A3000" strokeWidth="0.4"/>
+      <circle cx="30" cy="20" r="2.5" fill="#4A3000"/>
+      {[55,65,75].map(y => (
+        <path key={y} d={`M14 ${y} Q30 ${y+4} 46 ${y}`} fill="none" stroke="#FFD700" strokeWidth="0.8" opacity="0.5"/>
+      ))}
+      {([[-8,60],[8,58],[0,70],[-10,72],[10,72]] as [number,number][]).map(([dx,y],i) => (
+        <circle key={i} cx={30+dx} cy={y} r="1.5" fill="#FFD700" opacity="0.6"/>
+      ))}
+      <ellipse cx="30" cy="96" rx="18" ry="5" fill="#7A2800" stroke="#4A1A00" strokeWidth="0.6"/>
+    </svg>
+  );
+}
+
+function PeacockBommai({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 90 90" width="90" height="90" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id={`${p}-pb`} cx="40%" cy="35%" r="55%">
+          <stop offset="0%" stopColor="#00C878"/>
+          <stop offset="100%" stopColor="#003D50"/>
+        </radialGradient>
+      </defs>
+      {[-50,-35,-20,-5,10,25,40,55].map((angle,i) => (
+        <g key={i} transform={`translate(45,65) rotate(${angle})`}>
+          <path d="M0,0 Q-3,-25 0,-50 Q3,-25 0,0" fill={i%3===0?"#1A6E3C":i%3===1?"#006B8F":"#4B0082"} opacity="0.85"/>
+          <ellipse cx="0" cy="-45" rx="5" ry="7"
+            fill="none" stroke="#00C878" strokeWidth="1.2"
+            style={{animation:'peacock-fan 2s ease-in-out infinite'}}/>
+          <circle cx="0" cy="-45" r="3" fill="#FFD700"/>
+          <circle cx="0" cy="-45" r="1.5" fill="#006B8F"/>
+        </g>
+      ))}
+      <ellipse cx="45" cy="68" rx="14" ry="18" fill={`url(#${p}-pb)`} stroke="#003D50" strokeWidth="0.8"/>
+      <ellipse cx="36" cy="65" rx="6" ry="10" fill="#00C878" opacity="0.4" transform="rotate(-10 36 65)"/>
+      <ellipse cx="54" cy="65" rx="6" ry="10" fill="#00C878" opacity="0.4" transform="rotate(10 54 65)"/>
+      <path d="M41 52 Q38 40 42 30 Q45 22 48 30 Q52 40 49 52 Z" fill="#006B8F" stroke="#003D50" strokeWidth="0.6"/>
+      <circle cx="45" cy="26" r="10" fill="#006B8F" stroke="#003D50" strokeWidth="0.7"/>
+      {[-20,-10,0,10,20].map((angle,i) => (
+        <g key={i} transform={`translate(45,18) rotate(${angle})`}>
+          <line x1="0" y1="0" x2="0" y2="-10" stroke="#1A6E3C" strokeWidth="1.5"/>
+          <circle cx="0" cy="-11" r="2.5" fill={i===2?"#FFD700":"#00C878"} stroke="#003D50" strokeWidth="0.5"/>
+        </g>
+      ))}
+      <circle cx="49" cy="24" r="3.5" fill="#FFD700" stroke="#003D50" strokeWidth="0.6"/>
+      <circle cx="49" cy="24" r="2" fill="#1A0800"/>
+      <circle cx="48" cy="23" r="0.8" fill="white"/>
+      <path d="M54 26 L60 28 L54 30 Z" fill="#CC8800"/>
+      <line x1="40" y1="85" x2="38" y2="90" stroke="#8B6914" strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="50" y1="85" x2="52" y2="90" stroke="#8B6914" strokeWidth="2.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function BroomBommai({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 50 110" width="50" height="110" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id={`${p}-rh`} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#8B4513"/>
+          <stop offset="50%" stopColor="#D2691E"/>
+          <stop offset="100%" stopColor="#8B4513"/>
+        </linearGradient>
+      </defs>
+      <rect x="22" y="5" width="6" height="65" rx="3" fill={`url(#${p}-rh)`} stroke="#4A1A00" strokeWidth="0.5"/>
+      {[18,30,42,54].map(y => (
+        <rect key={y} x="21" y={y} width="8" height="3" rx="1.5" fill="#FFD700" stroke="#D97706" strokeWidth="0.4"/>
+      ))}
+      <rect x="18" y="66" width="14" height="6" rx="2" fill="#8B6914" stroke="#4A3000" strokeWidth="0.6"/>
+      {[-18,-13,-8,-3,2,7,12,17].map((dx,i) => (
+        <g key={i}>
+          <path
+            d={`M${25+dx*0.3} 72 Q${20+dx} ${82+i%2*4} ${14+dx} ${100+i%3*5}`}
+            fill="none"
+            stroke={i%3===0?"#C8A040":i%3===1?"#A08030":"#8B6914"}
+            strokeWidth={1.8 - Math.abs(dx)*0.04}
+            strokeLinecap="round"
+          />
+          {[78,86,94].map(y => (
+            <path key={y}
+              d={`M${21+dx*0.4} ${y} Q${17+dx*0.9} ${y-3} ${13+dx} ${y-1}`}
+              fill="none" stroke="#C8A040" strokeWidth="0.8" opacity="0.6"/>
+          ))}
+        </g>
+      ))}
+      <path d="M10 73 Q25 69 40 73" fill="none" stroke="#FFD700" strokeWidth="2.5"/>
+      <path d="M9 76 Q25 72 41 76" fill="none" stroke="#FFD700" strokeWidth="1.5" opacity="0.7"/>
+      {[0,4,8].map(i => (
+        <path key={i} d={`M${12+i} 72 Q${25} ${68+i} ${38-i} 72`} fill="none"
+          stroke={i===0?"#DC143C":i===4?"#FFD700":"#228B22"} strokeWidth="1.5"/>
+      ))}
+    </svg>
+  );
+}
+
+function MangaiDoll({ p }: { p: string }) {
+  return (
+    <svg viewBox="0 0 55 95" width="55" height="95" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id={`${p}-mf`} cx="42%" cy="35%" r="58%">
+          <stop offset="0%" stopColor="#FDDBB4"/>
+          <stop offset="100%" stopColor="#C8825A"/>
+        </radialGradient>
+        <radialGradient id={`${p}-mp`} cx="40%" cy="32%" r="60%">
+          <stop offset="0%" stopColor="#E8956D"/>
+          <stop offset="100%" stopColor="#7A2800"/>
+        </radialGradient>
+        <linearGradient id={`${p}-ms`} x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#7B1FA2"/>
+          <stop offset="100%" stopColor="#4A0072"/>
+        </linearGradient>
+      </defs>
+      <ellipse cx="27" cy="20" rx="13" ry="14" fill={`url(#${p}-mf)`} stroke="#C07848" strokeWidth="0.5"/>
+      <path d="M14 18 Q15 8 27 6 Q39 8 40 18 L38 15 Q27 10 16 15 Z" fill="#1A0800"/>
+      <circle cx="27" cy="12" r="1.8" fill="#DC143C"/>
+      <ellipse cx="22" cy="19" rx="2.8" ry="2" fill="#1A0800"/>
+      <ellipse cx="32" cy="19" rx="2.8" ry="2" fill="#1A0800"/>
+      <circle cx="21" cy="18" r="0.8" fill="white"/>
+      <circle cx="31" cy="18" r="0.8" fill="white"/>
+      <path d="M23 26 Q27 30 31 26" fill="none" stroke="#8B4513" strokeWidth="1" strokeLinecap="round"/>
+      <circle cx="27" cy="23" r="0.8" fill="#FFD700"/>
+      <path d="M13 34 Q7 90 9 93 L45 93 Q47 90 42 34 Z" fill={`url(#${p}-ms)`}/>
+      <path d="M13 34 Q7 90 9 93" fill="none" stroke="#FFD700" strokeWidth="1.5"/>
+      <path d="M42 34 Q47 90 45 93" fill="none" stroke="#FFD700" strokeWidth="1.5"/>
+      <path d="M16 34 Q27 29 38 34 L38 42 Q27 46 16 42 Z" fill="#228B22"/>
+      <rect x="23" y="33" width="8" height="5" rx="2.5" fill="#FDDBB4"/>
+      <ellipse cx="27" cy="5" rx="9" ry="7" fill={`url(#${p}-mp)`} stroke="#7A2800" strokeWidth="0.6"/>
+      <ellipse cx="27" cy="5" rx="5" ry="4" fill="#E8956D" opacity="0.4"/>
+      <ellipse cx="27" cy="0" rx="7" ry="2.5" fill="#7A2800" stroke="#FFD700" strokeWidth="0.6"/>
+      <ellipse cx="9" cy="48" rx="4" ry="10" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.4" transform="rotate(15 9 48)"/>
+      <ellipse cx="45" cy="48" rx="4" ry="10" fill="#FDDBB4" stroke="#C07848" strokeWidth="0.4" transform="rotate(-15 45 48)"/>
+      {[0,3].map(dy => (
+        <g key={dy}>
+          <rect x="4" y={54+dy} width="7" height="2" rx="1" fill={dy===0?"#FFD700":"#DC143C"}/>
+          <rect x="44" y={54+dy} width="7" height="2" rx="1" fill={dy===0?"#FFD700":"#DC143C"}/>
+        </g>
+      ))}
+      <ellipse cx="20" cy="92" rx="5.5" ry="2.5" fill="#FDDBB4"/>
+      <ellipse cx="34" cy="92" rx="5.5" ry="2.5" fill="#FDDBB4"/>
+    </svg>
+  );
+}
+
+/* ─── BommaiStrip: horizontal decorative divider ──────────────────── */
+const DOLL_ANIMS = [
+  { render: (p:string) => <BrideBommai p={p}/>,   anim:"bommai-float", delay:"0s",   dur:"4.2s" },
+  { render: (p:string) => <VilakkuBommai p={p}/>, anim:"bommai-nod",   delay:"0.6s", dur:"3.5s" },
+  { render: (p:string) => <GopuramBommai p={p}/>, anim:"bommai-float", delay:"0.3s", dur:"5.0s" },
+  { render: (p:string) => <KalasamBommai p={p}/>, anim:"bommai-sway",  delay:"1.0s", dur:"3.8s" },
+  { render: (p:string) => <GroomBommai p={p}/>,   anim:"bommai-float", delay:"0.8s", dur:"4.5s" },
+  { render: (p:string) => <PeacockBommai p={p}/>, anim:"bommai-sway",  delay:"0.2s", dur:"4.0s" },
+  { render: (p:string) => <BroomBommai p={p}/>,   anim:"bommai-nod",   delay:"1.3s", dur:"3.6s" },
+  { render: (p:string) => <MangaiDoll p={p}/>,    anim:"bommai-float", delay:"0.5s", dur:"4.8s" },
+];
+
+function BommaiStrip({ theme, uid }: { theme: string; uid: string }) {
+  const bg = theme === "day"
+    ? "linear-gradient(135deg, #F5EAFF 0%, #EDE9FF 50%, #FFF8E7 100%)"
+    : "linear-gradient(135deg, #0F0A1E 0%, #1A1040 50%, #0A0618 100%)";
+
+  return (
+    <div className="relative w-full overflow-hidden select-none" style={{ background: bg }}>
+      <div className="w-full h-px" style={{ background: "linear-gradient(90deg,transparent,#D97706,#FCD34D,#D97706,transparent)" }}/>
+      <div className="absolute top-0 left-0 right-0 h-[3px] opacity-40"
+        style={{ backgroundImage:"repeating-linear-gradient(90deg,#FCD34D 0,#FCD34D 6px,transparent 6px,transparent 14px)" }}/>
+
+      <div className="flex items-end justify-center gap-4 md:gap-8 px-4 py-2 flex-wrap">
+        {DOLL_ANIMS.map((d, i) => (
+          <div
+            key={i}
+            className="shrink-0 flex flex-col items-center"
+            style={{
+              animation: `${d.anim} ${d.dur} ease-in-out ${d.delay} infinite`,
+              willChange: "transform",
+              filter: theme === "day"
+                ? "drop-shadow(0 4px 8px rgba(100,50,0,0.25))"
+                : "drop-shadow(0 4px 12px rgba(217,119,6,0.35))"
+            }}
+          >
+            {d.render(`${uid}${i}`)}
+          </div>
+        ))}
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] opacity-40"
+        style={{ backgroundImage:"repeating-linear-gradient(90deg,#FCD34D 0,#FCD34D 6px,transparent 6px,transparent 14px)" }}/>
+      <div className="w-full h-px" style={{ background: "linear-gradient(90deg,transparent,#D97706,#FCD34D,#D97706,transparent)" }}/>
+
+      <div className="absolute inset-0 pointer-events-none opacity-[0.06]">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id={`${uid}-k`} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <circle cx="20" cy="20" r="8" fill="none" stroke="#D97706" strokeWidth="0.8"/>
+              <path d="M20 12 L28 20 L20 28 L12 20 Z" fill="none" stroke="#FCD34D" strokeWidth="0.6"/>
+              <circle cx="20" cy="20" r="2" fill="#D97706"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill={`url(#${uid}-k)`}/>
+        </svg>
+      </div>
+    </div>
   );
 }
 
