@@ -2112,52 +2112,29 @@ function MangaiDoll({ p }: { p: string }) {
   );
 }
 
-/* ─── BommaiStrip: horizontal decorative divider ──────────────────── */
-const DOLL_ANIMS = [
-  { render: (p:string) => <BrideBommai p={p}/>,   anim:"bommai-float", delay:"0s",   dur:"4.2s" },
-  { render: (p:string) => <VilakkuBommai p={p}/>, anim:"bommai-nod",   delay:"0.6s", dur:"3.5s" },
-  { render: (p:string) => <GopuramBommai p={p}/>, anim:"bommai-float", delay:"0.3s", dur:"5.0s" },
-  { render: (p:string) => <KalasamBommai p={p}/>, anim:"bommai-sway",  delay:"1.0s", dur:"3.8s" },
-  { render: (p:string) => <GroomBommai p={p}/>,   anim:"bommai-float", delay:"0.8s", dur:"4.5s" },
-  { render: (p:string) => <PeacockBommai p={p}/>, anim:"bommai-sway",  delay:"0.2s", dur:"4.0s" },
-  { render: (p:string) => <BroomBommai p={p}/>,   anim:"bommai-nod",   delay:"1.3s", dur:"3.6s" },
-  { render: (p:string) => <MangaiDoll p={p}/>,    anim:"bommai-float", delay:"0.5s", dur:"4.8s" },
+/* ─── BommaiStrip: 3D image doll divider ──────────────────────────── */
+const STRIP_ITEMS: { src: string; anim: string; delay: string; dur: string; h: number; mirror?: boolean }[] = [
+  { src: "/doll.png",   anim: "doll-sway-3d",  delay: "0s",    dur: "4.5s", h: 140 },
+  { src: "/couple.png", anim: "doll-float-3d", delay: "0.4s",  dur: "5.2s", h: 160 },
+  { src: "/doll.png",   anim: "doll-bob-3d",   delay: "0.9s",  dur: "3.8s", h: 120, mirror: true },
+  { src: "/couple.png", anim: "doll-sway-3d",  delay: "1.5s",  dur: "4.8s", h: 150, mirror: true },
+  { src: "/doll.png",   anim: "doll-float-3d", delay: "0.6s",  dur: "4.2s", h: 135 },
 ];
 
 function BommaiStrip({ theme, uid }: { theme: string; uid: string }) {
   const bg = theme === "day"
-    ? "linear-gradient(135deg, #F5EAFF 0%, #EDE9FF 50%, #FFF8E7 100%)"
+    ? "linear-gradient(135deg, #FFF8E7 0%, #F5EAFF 50%, #EDE9FF 100%)"
     : "linear-gradient(135deg, #0F0A1E 0%, #1A1040 50%, #0A0618 100%)";
 
   return (
     <div className="relative w-full overflow-hidden select-none" style={{ background: bg }}>
+      {/* Top gold border */}
       <div className="w-full h-px" style={{ background: "linear-gradient(90deg,transparent,#D97706,#FCD34D,#D97706,transparent)" }}/>
       <div className="absolute top-0 left-0 right-0 h-[3px] opacity-40"
         style={{ backgroundImage:"repeating-linear-gradient(90deg,#FCD34D 0,#FCD34D 6px,transparent 6px,transparent 14px)" }}/>
 
-      <div className="flex items-end justify-center gap-4 md:gap-8 px-4 py-2 flex-wrap">
-        {DOLL_ANIMS.map((d, i) => (
-          <div
-            key={i}
-            className="shrink-0 flex flex-col items-center"
-            style={{
-              animation: `${d.anim} ${d.dur} ease-in-out ${d.delay} infinite`,
-              willChange: "transform",
-              filter: theme === "day"
-                ? "drop-shadow(0 4px 8px rgba(100,50,0,0.25))"
-                : "drop-shadow(0 4px 12px rgba(217,119,6,0.35))"
-            }}
-          >
-            {d.render(`${uid}${i}`)}
-          </div>
-        ))}
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-[3px] opacity-40"
-        style={{ backgroundImage:"repeating-linear-gradient(90deg,#FCD34D 0,#FCD34D 6px,transparent 6px,transparent 14px)" }}/>
-      <div className="w-full h-px" style={{ background: "linear-gradient(90deg,transparent,#D97706,#FCD34D,#D97706,transparent)" }}/>
-
-      <div className="absolute inset-0 pointer-events-none opacity-[0.06]">
+      {/* Kolam dot pattern overlay */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.05]">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id={`${uid}-k`} x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -2169,6 +2146,42 @@ function BommaiStrip({ theme, uid }: { theme: string; uid: string }) {
           <rect width="100%" height="100%" fill={`url(#${uid}-k)`}/>
         </svg>
       </div>
+
+      {/* 3D doll row */}
+      <div
+        className="flex items-end justify-center gap-6 md:gap-12 px-6 py-4 flex-wrap"
+        style={{ perspective: "800px" }}
+      >
+        {STRIP_ITEMS.map((item, i) => (
+          <div
+            key={i}
+            className="shrink-0"
+            style={{
+              animation: `${item.anim} ${item.dur} ease-in-out ${item.delay} infinite, doll-glow-pulse ${item.dur} ease-in-out ${item.delay} infinite`,
+              willChange: "transform, filter",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            <img
+              src={item.src}
+              alt=""
+              height={item.h}
+              style={{
+                height: item.h,
+                width: "auto",
+                display: "block",
+                transform: item.mirror ? "scaleX(-1)" : undefined,
+                imageRendering: "crisp-edges",
+              }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom gold border */}
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] opacity-40"
+        style={{ backgroundImage:"repeating-linear-gradient(90deg,#FCD34D 0,#FCD34D 6px,transparent 6px,transparent 14px)" }}/>
+      <div className="w-full h-px" style={{ background: "linear-gradient(90deg,transparent,#D97706,#FCD34D,#D97706,transparent)" }}/>
     </div>
   );
 }

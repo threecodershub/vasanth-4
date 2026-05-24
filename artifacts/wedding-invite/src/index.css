@@ -232,6 +232,30 @@
   50%       { transform: scaleX(1.08); }
 }
 
+/* ── 3D doll animations ─────────────────────────────────────────── */
+@keyframes doll-float-3d {
+  0%   { transform: perspective(400px) translateY(0px)   rotateY(-8deg)  scale(1); }
+  25%  { transform: perspective(400px) translateY(-12px) rotateY(0deg)   scale(1.03); }
+  50%  { transform: perspective(400px) translateY(-18px) rotateY(8deg)   scale(1.05); }
+  75%  { transform: perspective(400px) translateY(-8px)  rotateY(4deg)   scale(1.02); }
+  100% { transform: perspective(400px) translateY(0px)   rotateY(-8deg)  scale(1); }
+}
+@keyframes doll-sway-3d {
+  0%   { transform: perspective(400px) translateY(0px)   rotateY(10deg)  rotateZ(-3deg) scale(1); }
+  33%  { transform: perspective(400px) translateY(-10px) rotateY(-6deg)  rotateZ(1deg)  scale(1.04); }
+  66%  { transform: perspective(400px) translateY(-6px)  rotateY(12deg)  rotateZ(2deg)  scale(1.02); }
+  100% { transform: perspective(400px) translateY(0px)   rotateY(10deg)  rotateZ(-3deg) scale(1); }
+}
+@keyframes doll-bob-3d {
+  0%,100% { transform: perspective(400px) translateY(0px)  rotateY(0deg)  scale(1);    }
+  40%     { transform: perspective(400px) translateY(-14px) rotateY(-5deg) scale(1.04); }
+  70%     { transform: perspective(400px) translateY(-7px)  rotateY(5deg)  scale(1.02); }
+}
+@keyframes doll-glow-pulse {
+  0%,100% { filter: drop-shadow(0 8px 20px rgba(217,119,6,0.5)) drop-shadow(0 0 10px rgba(252,211,77,0.3)); }
+  50%     { filter: drop-shadow(0 12px 30px rgba(217,119,6,0.85)) drop-shadow(0 0 20px rgba(252,211,77,0.6)); }
+}
+
 @layer utilities {
   input[type="search"]::-webkit-search-cancel-button {
     @apply hidden;
